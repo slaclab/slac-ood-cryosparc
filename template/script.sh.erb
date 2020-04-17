@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Clean the environment
+module purge
+
+# Setup cryosparc environment
+source /etc/profile.d/modules.sh
+export MODULEPATH=/usr/share/Modules/modulefiles:/opt/modulefiles:/afs/slac/package/singularity/modulefiles
+module load cryosparc/<%= context.cryosparc_version %>
+
+# Launch the cryosparc server
+set -xe
+export SIF=/afs/slac/package/singularity/images/cryosparc/<%= context.cryosparc_version %>/cryosparc@<%= context.cryosparc_version %>.sif
+export INSTANCE=cryosparc-${USER}
+singularity instance start --nv \
+	  -B config.sh:/app/cryosparc2_master/config.sh \
+	  -B config.sh:/app/cryosparc2_worker/config.sh \
+	  -B run:/app/cryosparc2_master/run \
+	  -B /scratch \
+	  -B /gpfs \
+	  ${SIF} ${INSTANCE}
+singularity exec --nv instance://${INSTANCE} cryosparc-server.sh <%= context.cryosparc_license_id %>

@@ -1,0 +1,26 @@
+# Export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+# Find available port to run server on
+port=39000
+#$(find_port ${host})
+
+# create a config file for cryosparc
+export CONFIG_FILE="${PWD}/config.sh"
+
+# Generate basic configuration file with secure file permissions
+(
+umask 077
+cat > "${CONFIG_FILE}" << EOL
+export CRYOSPARC_LICENSE_ID=TBD
+export CRYOSPARC_MASTER_HOSTNAME=localhost
+export CRYOSPARC_DB_PATH=${HOME}/cryosparc-v2/cryosparc2_database
+export CRYOSPARC_BASE_PORT=39000
+export CRYOSPARC_DEVELOP=false
+export CRYOSPARC_INSECURE=false
+export CRYOSPARC_CLICK_WRAP=true
+export CRYOSPARC_USE_GPU=true
+export CRYOSPARC_CUDA_PATH="/usr/local/cuda"
+EOL
+)
+mkdir "${PWD}/run"

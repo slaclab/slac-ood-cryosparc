@@ -1,0 +1,67 @@
+---
+cluster: "sdf_cluster"
+form:
+  - slurm_partition
+  - slurm_account
+  - bc_num_hours
+  - num_cores
+  - mem
+  - gpu_type
+  - num_gpus
+  - cryosparc_version
+  - cryosparc_license_id
+  - bc_email_on_started
+attributes:
+  num_cores:
+    widget: "number_field"
+    label: "Number of CPU cores"
+    value: 1
+    help: |
+      Number of cpu cores available for cryosparc instance
+    min: 1
+    max: 44
+    step: 1
+  mem:
+    widget: "number_field"
+    value: "2048"
+    help:
+      Total memory for cryosparc instance in MB.
+    min: 100
+    max: 256000
+  gpu_type:
+    widget: "select"
+    label: "GPU Type"
+    help: |
+      Number and type of GPUs
+    options:
+      - [ "Geforce 2080Ti", "geforce_rtx_2080_ti" ]
+      - [ "Geforce 1080Ti", "geforce_gtx_1080_ti" ]
+      - [ "Tesla V100", "v100" ]
+  num_gpus:
+    widget: "number_field"
+    label: "Number of GPUs"
+    value: 0
+    help: |
+      Number of GPUs requested
+    min: 0
+    max: 10
+    step: 1
+  slurm_partition:
+    label: "Partition"
+    help: "Slurm Partition to use"
+    value: "shared"
+  slurm_account:
+    label: "Account"
+    help: "Slurm Account to use"
+    value: "shared"
+  cryosparc_version:
+    widget: "select"
+    label: "Cryosparc Version"
+    help: |
+      Version of Cryosparc to run
+    options:
+      - [ "2.14.2", "2.14.2" ]
+  cryosparc_license_id:
+    label: "Cryosparc License ID"
+    help: |
+      Personal cryosparc license ID, available at https://cryosparc.com/download

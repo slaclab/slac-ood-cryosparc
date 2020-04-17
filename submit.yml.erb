@@ -1,0 +1,20 @@
+---
+<% 
+  gpus = num_gpus.blank? ? 0 : num_gpus.to_i
+%>
+batch_connect:
+  template: "basic"
+script:
+  native:
+    - "-A"
+    - "<%= slurm_account %>"
+    - "-p"
+    - "<%= slurm_partition %>"
+    - "-N"
+    - "1"
+    - "-c"
+    - "<%= num_cores %>"
+    - "--mem"
+    - "<%= mem %>"
+    - "--gpus"
+    - "<%= gpus %>"
