@@ -1,5 +1,5 @@
 ---
-cluster: "sdf_cluster"
+cluster: "sdf"
 form:
   - slurm_partition
   - slurm_account
