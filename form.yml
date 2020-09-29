@@ -1,32 +1,79 @@
 ---
 cluster: "sdf"
 form:
-  - slurm_partition
+  - CRYOSPARC_LICENSE_ID
+  - SINGULARITY_IMAGE_TAG
+  - CRYOSPARC_LOCAL_WORKER
   - slurm_account
   - bc_num_hours
-  - num_cores
+  - bc_num_cores
   - mem
   - gpu_type
   - num_gpus
-  - cryosparc_version
-  - cryosparc_license_id
   - bc_email_on_started
+  - SINGULARITY_IMAGE
+  - SINGULARITY_OPTIONS
+  - OOD_BOOTSTRAP_SCRIPT
+  - desktop
+  - bc_vnc_idle
+  - bc_vnc_resolution
 attributes:
-  num_cores:
+  OOD_BOOTSTRAP_SCRIPT: 
+    widget: "hidden_field"
+    value: |
+      export CRYOSPARC_DATADIR=$HOME/cryosparc-v2
+      mkdir -p $CRYOSPARC_DATADIR/run
+      if [ ! -d "$CRYOSPARC_DATADIR" ]; then
+        mkdir $CRYOSPARC_DATADIR
+        cat <<EOF >$CRYOSPARC_DATADIR/config.sh
+      export CRYOSPARC_LICENSE_ID=TBA
+      export CRYOSPARC_MASTER_HOSTNAME=localhost
+      export CRYOSPARC_DB_PATH=$CRYOSAPRC_DATADIR
+      export CRYOSPARC_BASE_PORT=39000
+      export CRYOSPARC_DEVELOP=false
+      export CRYOSPARC_INSECURE=false
+      export CRYOSPARC_CLICK_WRAP=true
+      export CRYOSPARC_FORCE_HOSTNAME=true
+      export CRYOSPARC_USE_GPU=true
+      export CRYOSPARC_CUDA_PATH=/usr/local/cuda
+      export CRYOSPARC_FORCE_USER=true
+      EOF
+      fi
+  SINGULARITY_IMAGE:
+    widget: "hidden_field"
+    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG-desktop/cryosparc-desktop_#SINGULARITY_IMAGE_TAG.sif
+  SINGULARITY_OPTIONS:
+    widget: "hidden_field"
+    value: " -B$HOME/cryosparc-v2/config.sh:/app/cryosparc2_master/config.sh,$HOME/cryosparc-v2/config.sh:/app/cryosparc2_worker/config.sh,$HOME/cryosparc-v2/run:/app/cryosparc2_master/run"
+  SINGULARITY_IMAGE_TAG:
+    widget: select
+    label: "Cryosparc Version"
+    options:
+      - [ "2.15.0", "2.15.0" ]
+  CRYOSPARC_LOCAL_WORKER:
+    widget: "hidden_field"
+    value: "1"
+  desktop:
+    widget: "hidden_field"
+    value: xfce
+  bc_vnc_idle: 0
+  bc_vnc_resolution:
+    required: true
+  bc_num_cores:
     widget: "number_field"
     label: "Number of CPU cores"
-    value: 1
+    value: 8
     help: |
       Number of cpu cores available for cryosparc instance
-    min: 1
+    min: 8
     max: 44
-    step: 1
+    step: 4
   mem:
     widget: "number_field"
-    value: "2048"
+    value: "32768"
     help:
       Total memory for cryosparc instance in MB.
-    min: 100
+    min: 32768
     max: 256000
   gpu_type:
     widget: "select"
@@ -40,28 +87,25 @@ attributes:
   num_gpus:
     widget: "number_field"
     label: "Number of GPUs"
-    value: 0
+    value: 1
     help: |
       Number of GPUs requested
-    min: 0
+    min: 1
     max: 10
     step: 1
-  slurm_partition:
+  slurm_account:
     label: "Partition"
     help: "Slurm Partition to use"
     value: "shared"
-  slurm_account:
-    label: "Account"
-    help: "Slurm Account to use"
-    value: "shared"
-  cryosparc_version:
-    widget: "select"
-    label: "Cryosparc Version"
-    help: |
-      Version of Cryosparc to run
-    options:
-      - [ "2.14.2", "2.14.2" ]
-  cryosparc_license_id:
+  #cryosparc_version:
+  #  widget: "select"
+  #  label: "Cryosparc Version"
+  #  help: |
+  #    Version of Cryosparc to run
+  #  options:
+  #    - [ "2.14.2", "2.14.2" ]
+  CRYOSPARC_LICENSE_ID:
+    required: true
     label: "Cryosparc License ID"
     help: |
-      Personal cryosparc license ID, available at https://cryosparc.com/download
+      Enter your personal cryosparc license ID. You can obtain a new license at https://cryosparc.com/download

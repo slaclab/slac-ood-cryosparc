@@ -1,9 +1,34 @@
+singularity instance list
+
+port_used(){
+  nc -w 2 "$1" "$2" < /dev/null > /dev/null 2>&1
+}
+ 
+find_port () {
+  local host="${1:-localhost}"
+  local port_low="${2:-2000}"
+  local step="${3:-100}"
+  local port=${port_low}
+  while port_used ${host} ${port}; do
+    port=$(( $port + $step ))
+  done
+  echo "${port}"
+}
+  
+export CRYOSPARC_BASE_PORT=$(find_port localhost 39100 100)
+echo 'CRYOSPARC BASE PORT ' $CRYOSPARC_BASE_PORT
+
+# start cryosparc
+echo singularity exec instance://${SINGULARITY_INSTANCE} /cryosparc.sh
+singularity exec instance://${SINGULARITY_INSTANCE} /cryosparc.sh
+
 # Wait for the cryosparc server to start
-echo "Waiting for cryosparc server to open port ${port}..."
-if wait_until_port_used "${host}:${port}" 240; then
-  echo "Discovered cryosparc server listening on port ${port}!"
-else
-  echo "Timed out waiting for cryosparc server to open port ${port}!"
-  clean_up 1
-fi
-sleep 2
+#source $HOME/cryosparc-v2/config.sh
+#echo "Waiting for cryosparc server to open port ${CRYOSPARC_BASE_PORT}..."
+#if wait_until_port_used "localhost:$CRYOSPARC_BASE_PORT" 240; then
+#  echo "Discovered cryosparc server listening on port $CRYOSPARC_BASE_PORT!"
+#else
+#  echo "Timed out waiting for cryosparc server to open port ${port}!"
+#  clean_up 1
+#fi
+#sleep 2

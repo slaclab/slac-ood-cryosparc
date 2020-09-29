@@ -1,9 +1,11 @@
 ---
-name: Cryosparc
+name: Cryosparc Desktop
+icon: fa://desktop
 category: Interactive Apps
-subcategory: Servers
+subcategory: Desktops
 role: batch_connect
 description: |
-  This app will launch a [Cryosparc]
+  This [app] will launch an interactive graphical desktop on a compute node and start a [cryosparc] instance. It will also start a web browser pointing to the running instance. You may change the number of CPUs, memory and GPUs assocated with the local worker that is also started. 
 
-  [Cryosparc]: https://cryosparc.com/
+  [app]: https://github.com/slaclab/slac-ood-desktop
+  [cryosparc]: https://www.cryosparc.com
