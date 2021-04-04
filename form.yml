@@ -11,24 +11,28 @@ form:
   - gpu_type
   - num_gpus
   - bc_email_on_started
+  - advanced_settings
   - SINGULARITY_IMAGE
-  - SINGULARITY_OPTIONS
+  - CRYOSPARC_DATADIR
   - OOD_BOOTSTRAP_SCRIPT
+  - CRYOSPARC_MASTER_PATH
+  - CRYOSPARC_WORKER_PATH
+  - SINGULARITY_OPTIONS
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
-    widget: "hidden_field"
+    widget: text_area
+    # export CRYOSPARC_DATADIR=$HOME/cryosparc
     value: |
-      export CRYOSPARC_DATADIR=$HOME/cryosparc-v2
       mkdir -p $CRYOSPARC_DATADIR/run
       if [ ! -d "$CRYOSPARC_DATADIR" ]; then
-        mkdir $CRYOSPARC_DATADIR
+        mkdir -p $CRYOSPARC_DATADIR
         cat <<EOF >$CRYOSPARC_DATADIR/config.sh
       export CRYOSPARC_LICENSE_ID=TBA
       export CRYOSPARC_MASTER_HOSTNAME=localhost
-      export CRYOSPARC_DB_PATH=$CRYOSAPRC_DATADIR
+      export CRYOSPARC_DB_PATH=$CRYOSPARC_DATADIR
       export CRYOSPARC_BASE_PORT=39000
       export CRYOSPARC_DEVELOP=false
       export CRYOSPARC_INSECURE=false
@@ -39,17 +43,28 @@ attributes:
       export CRYOSPARC_FORCE_USER=true
       EOF
       fi
+  CRYOSPARC_DATADIR:
+    value: $HOME/cryosparc
+    help: Directory path for cryosparc database and configuration files should
+  CRYOSPARC_MASTER_PATH:
+    value: /app/cryosparc_master
+  CRYOSPARC_WORKER_PATH:
+    value: /app/cryosparc_worker
   SINGULARITY_IMAGE:
     widget: "hidden_field"
     value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG-desktop/cryosparc-desktop_#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
-    widget: "hidden_field"
-    value: " -B$HOME/cryosparc-v2/config.sh:/app/cryosparc2_master/config.sh,$HOME/cryosparc-v2/config.sh:/app/cryosparc2_worker/config.sh,$HOME/cryosparc-v2/run:/app/cryosparc2_master/run"
+    #widget: "hidden_field"
+    #value: " -B $HOME/cryosparc/config.sh:/app/cryosparc_master/config.sh,$HOME/cryosparc/config.sh:/app/cryosparc_worker/config.sh,$HOME/cryosparc/run:/app/cryosparc_master/run"
+    value: " -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "Cryosparc Version"
+    help: "Note that 2.15.0 will require different advanced settings: change CRYOSPARC_DATADIR=$HOME/cryosparc-v2, CRYOSPARC_MASTER_PATH=/app/cryosparc2_master and CRYOSPARC_WORKER_PATH=/app/cryosparc2_worker"
     options:
       - [ "2.15.0", "2.15.0" ]
+      - [ "3.1.0", "3.1.0" ]
+      - [ "3.2.0", "3.2.0" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
     value: "1"
@@ -97,13 +112,9 @@ attributes:
     label: "Partition"
     help: "Slurm Partition to use"
     value: "shared"
-  #cryosparc_version:
-  #  widget: "select"
-  #  label: "Cryosparc Version"
-  #  help: |
-  #    Version of Cryosparc to run
-  #  options:
-  #    - [ "2.14.2", "2.14.2" ]
+  advanced_settings:
+    widget: "check_box"
+    label: Show advanced settings...
   CRYOSPARC_LICENSE_ID:
     required: true
     label: "Cryosparc License ID"

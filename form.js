@@ -97,12 +97,64 @@ function node_type_change_hander() {
 }
 
 /**
+ * advanced settings toggle
+ */
+function advanced_settings_change_handler() {
+  console.log('advanced settings handler...');
+  let toggle = $('#batch_connect_session_context_advanced_settings')[0];
+
+  let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0]
+  toggle_visibilty_of_form_group(
+    '#batch_connect_session_context_CRYOSPARC_DATADIR',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0].value = datadir.defaultValue
+
+  let singularity_options = $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0]
+  toggle_visibilty_of_form_group(
+    '#batch_connect_session_context_SINGULARITY_OPTIONS',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0].value = singularity_options.defaultValue
+
+  let bootstrap = $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0]
+  toggle_visibilty_of_form_group(
+    '#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0].value = bootstrap.defaultValue
+
+  let master = $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0]
+  toggle_visibilty_of_form_group(
+    '#batch_connect_session_context_CRYOSPARC_MASTER_PATH',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0].value = master.defaultValue
+
+  let worker = $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0]
+  toggle_visibilty_of_form_group(
+    '#batch_connect_session_context_CRYOSPARC_WORKER_PATH',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0].value = worker.defaultValue
+
+}
+
+function set_advanced_settings_change_handler() {
+  let toggle = $('#batch_connect_session_context_advanced_settings');
+  advanced_settings_change_handler()
+  toggle.change( advanced_settings_change_handler );
+}
+
+
+/**
  * Main
  */
 
 // Set controls to align with the values of the last session context
-fix_num_cores();
-toggle_cuda_version_visibility();
+//fix_num_cores();
+//toggle_cuda_version_visibility();
 
 // Install event handlers
-set_node_type_change_handler();
+//set_node_type_change_handler();
+set_advanced_settings_change_handler();
