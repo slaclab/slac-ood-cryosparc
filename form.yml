@@ -65,6 +65,7 @@ attributes:
       - [ "2.15.0", "2.15.0" ]
       - [ "3.1.0", "3.1.0" ]
       - [ "3.2.0", "3.2.0" ]
+      - [ "3.2.0-210817", "3.2.0-210817" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
     value: "1"
