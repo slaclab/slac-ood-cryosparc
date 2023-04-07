@@ -17,4 +17,6 @@ script:
     - "-N 1"
     - "-c <%= bc_num_cores %>"
     - "--mem=<%= mem %>"
+    - "-d singleton"
+    - "--job-name=<% CRYOSPARC_DATADIR %>"
     <% if gpus > 0 %>- "--gpus=<%= gpu_str %>"<% end %>
