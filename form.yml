@@ -61,12 +61,10 @@ attributes:
     widget: select
     label: "Cryosparc Version"
     options:
-      - [ "3.1.0", "3.1.0" ]
-      - [ "3.2.0", "3.2.0" ]
-      - [ "3.2.0-210817", "3.2.0-210817" ]
       - [ "4.0.3", "4.0.3" ]
       - [ "4.1.2", "4.1.2" ]
       - [ "4.2.1", "4.2.1" ]
+      - [ "4.4.0+231114", "4.4.0+231114-0" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
     value: "1"
@@ -91,7 +89,7 @@ attributes:
     help:
       Total memory for cryosparc instance in MB.
     min: 32768
-    max: 256000
+    max: 500000
   num_gpus:
     widget: "number_field"
     label: "Number of GPUs"
