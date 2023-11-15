@@ -1,5 +1,5 @@
 ---
-cluster: "sdf"
+cluster: "*"
 form:
   - CRYOSPARC_LICENSE_ID
   - SINGULARITY_IMAGE_TAG
@@ -52,17 +52,14 @@ attributes:
     value: /app/cryosparc_worker
   SINGULARITY_IMAGE:
     widget: "hidden_field"
-    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG-desktop/cryosparc-desktop_#SINGULARITY_IMAGE_TAG.sif
+    value: /fs/ddn/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG-desktop/cryosparc-desktop_#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     #widget: "hidden_field"
-    #value: " -B $HOME/cryosparc/config.sh:/app/cryosparc_master/config.sh,$HOME/cryosparc/config.sh:/app/cryosparc_worker/config.sh,$HOME/cryosparc/run:/app/cryosparc_master/run"
     value: " --net --network none -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "Cryosparc Version"
-    help: "Note that 2.15.0 will require different advanced settings: change CRYOSPARC_DATADIR=$HOME/cryosparc-v2, CRYOSPARC_MASTER_PATH=/app/cryosparc2_master and CRYOSPARC_WORKER_PATH=/app/cryosparc2_worker"
     options:
-      - [ "2.15.0", "2.15.0" ]
       - [ "3.1.0", "3.1.0" ]
       - [ "3.2.0", "3.2.0" ]
       - [ "3.2.0-210817", "3.2.0-210817" ]
@@ -94,28 +91,21 @@ attributes:
       Total memory for cryosparc instance in MB.
     min: 32768
     max: 256000
-  gpu_type:
-    widget: "select"
-    label: "GPU Type"
-    help: |
-      Number and type of GPUs
-    options:
-      - [ "Geforce 2080Ti", "geforce_rtx_2080_ti" ]
-      - [ "Geforce 1080Ti", "geforce_gtx_1080_ti" ]
-      - [ "Tesla V100", "v100" ]
   num_gpus:
     widget: "number_field"
     label: "Number of GPUs"
     value: 1
     help: |
-      Number of GPUs requested
+      Number of GPUs requested; the type of GPU provided will depend upon the Parition selected.
     min: 1
     max: 10
     step: 1
   slurm_account:
+    label: "Account"
+    help: "Slurm Account to use"
+  slurm_partition:
     label: "Partition"
     help: "Slurm Partition to use"
-    value: "shared"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
