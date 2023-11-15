@@ -11,6 +11,11 @@ if [[ ! -e "${PANEL_CONFIG}" ]]; then
   cp "/etc/xdg/xfce4/panel/default.xml" "${PANEL_CONFIG}"
 fi
 
+# Don't use the systemd user bus for the X session
+if [ "$DBUS_SESSION_BUS_ADDRESS" = "unix:path=$XDG_RUNTIME_DIR/bus" ]; then
+    unset DBUS_SESSION_BUS_ADDRESS
+fi
+
 # Disable startup services
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
