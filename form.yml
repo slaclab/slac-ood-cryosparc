@@ -53,7 +53,7 @@ attributes:
     value: /app/cryosparc_worker
   SINGULARITY_IMAGE:
     widget: "hidden_field"
-    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG-desktop/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
+    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     #widget: "hidden_field"
     value: " --net --network none -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
