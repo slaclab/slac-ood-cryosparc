@@ -1,14 +1,14 @@
 ---
-cluster: "*"
+cluster: "s3df_batch"
 form:
   - CRYOSPARC_LICENSE_ID
   - SINGULARITY_IMAGE_TAG
   - CRYOSPARC_LOCAL_WORKER
   - slurm_account
+  - slurm_partition
   - bc_num_hours
   - bc_num_cores
   - mem
-  - gpu_type
   - num_gpus
   - bc_email_on_started
   - advanced_settings
