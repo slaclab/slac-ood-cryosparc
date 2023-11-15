@@ -56,14 +56,12 @@ attributes:
     value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     #widget: "hidden_field"
-    value: " --net --network none -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
+    value: " -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "Cryosparc Version"
     options:
       - [ "4.0.3", "4.0.3" ]
-      - [ "4.1.2", "4.1.2" ]
-      - [ "4.2.1", "4.2.1" ]
       - [ "4.4.0+231114", "4.4.0+231114" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
@@ -71,7 +69,7 @@ attributes:
   desktop:
     widget: "hidden_field"
     value: xfce
-  bc_vnc_idle: 0
+  bc_vnc_idle: 1800
   bc_vnc_resolution:
     required: true
   bc_num_cores:
