@@ -2,21 +2,16 @@
 <%
   gpus = num_gpus.blank? ? 0 : num_gpus.to_i
 %>
-<% if gpus > 0 and gpu_type != "Any" %>
-  <% gpu_str = gpu_type + ':' + gpus.to_s %>
-<% else %>
-  <% gpu_str = gpus.to_s %>
-<% end %>
 batch_connect:
   template: vnc
-  #template: desktop
 script:
   native:
     - "-A<%= slurm_account %>"
-    - "-p<%= slurm_account %>"
+    - "-p<%= slurm_partition %>"
     - "-N 1"
     - "-c <%= bc_num_cores %>"
     - "--mem=<%= mem %>"
     - "-d singleton"
     - "--job-name=<% CRYOSPARC_DATADIR %>"
-    <% if gpus > 0 %>- "--gpus=<%= gpu_str %>"<% end %>
+    <% if gpus > 0 %>- "--gpus=<%= gpus %>"<% end %>
+    <% if slurm_reservation.blank? %>- "--reservation=<%= slurm_reservation %>"<% end %>

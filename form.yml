@@ -21,6 +21,7 @@ form:
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
+  - slurm_reservation
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
     widget: text_area
@@ -106,6 +107,9 @@ attributes:
   slurm_partition:
     label: "Partition"
     help: "Slurm Partition to use"
+  slurm_reservation:
+    label: "Reservation"
+    helP: "Slurm Reservation to use (blank to ignore)"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
