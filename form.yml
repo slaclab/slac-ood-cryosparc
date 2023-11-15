@@ -6,6 +6,7 @@ form:
   - CRYOSPARC_LOCAL_WORKER
   - slurm_account
   - slurm_partition
+  - slurm_reservation
   - bc_num_hours
   - bc_num_cores
   - mem
@@ -21,7 +22,6 @@ form:
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
-  - slurm_reservation
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
     widget: text_area
