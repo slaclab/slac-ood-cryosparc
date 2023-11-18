@@ -15,7 +15,7 @@ find_port () {
   echo "${port}"
 }
   
-export CRYOSPARC_BASE_PORT=39100 #$(find_port localhost 39100 100)
+export CRYOSPARC_BASE_PORT=$(find_port localhost 39100 100)
 echo 'CRYOSPARC BASE PORT ' $CRYOSPARC_BASE_PORT
 
 # start cryosparc
