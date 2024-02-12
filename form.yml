@@ -61,7 +61,7 @@ attributes:
     widget: select
     label: "Cryosparc Version"
     options:
-      - [ "4.4.1+240110-1", "4.4.1+240110-1" ]
+      - [ "4.4.1+240110-2", "4.4.1+240110-2" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
     value: "1"
