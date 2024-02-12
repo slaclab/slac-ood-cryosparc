@@ -68,7 +68,7 @@ attributes:
   desktop:
     widget: "hidden_field"
     value: xfce
-  bc_vnc_idle: 1800
+  bc_vnc_idle: 0
   bc_vnc_resolution:
     required: true
   bc_num_cores:
