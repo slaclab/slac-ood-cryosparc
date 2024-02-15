@@ -1,4 +1,4 @@
-singularity instance list
+apptainer instance list
 
 port_used(){
   nc -w 2 "$1" "$2" < /dev/null > /dev/null 2>&1
@@ -19,8 +19,8 @@ export CRYOSPARC_BASE_PORT=$(find_port localhost 39100 100)
 echo 'CRYOSPARC BASE PORT ' $CRYOSPARC_BASE_PORT
 
 # start cryosparc
-echo singularity exec instance://${SINGULARITY_INSTANCE} /cryosparc.sh
-singularity exec instance://${SINGULARITY_INSTANCE} /cryosparc.sh
+echo apptainer exec instance://${APPTAINER_INSTANCE} /cryosparc.sh
+apptainer exec instance://${APPTAINER_INSTANCE} /cryosparc.sh
 
 # Wait for the cryosparc server to start
 #source $HOME/cryosparc-v2/config.sh

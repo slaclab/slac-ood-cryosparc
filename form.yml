@@ -2,7 +2,7 @@
 cluster: "s3df_batch"
 form:
   - CRYOSPARC_LICENSE_ID
-  - SINGULARITY_IMAGE_TAG
+  - APPTAINER_IMAGE_TAG
   - CRYOSPARC_LOCAL_WORKER
   - slurm_account
   - slurm_partition
@@ -13,12 +13,12 @@ form:
   - num_gpus
   - bc_email_on_started
   - advanced_settings
-  - SINGULARITY_IMAGE
+  - APPTAINER_IMAGE
   - CRYOSPARC_DATADIR
   - OOD_BOOTSTRAP_SCRIPT
   - CRYOSPARC_MASTER_PATH
   - CRYOSPARC_WORKER_PATH
-  - SINGULARITY_OPTIONS
+  - APPTAINER_OPTIONS
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
@@ -51,15 +51,15 @@ attributes:
     value: /app/cryosparc_master
   CRYOSPARC_WORKER_PATH:
     value: /app/cryosparc_worker
-  SINGULARITY_IMAGE:
+  APPTAINER_IMAGE:
     widget: "hidden_field"
-    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
-  SINGULARITY_OPTIONS:
+    value: /sdf/group/cryoem/sw/images/cryosparc/#APPTAINER_IMAGE_TAG/cryosparc-desktop@#APPTAINER_IMAGE_TAG.sif
+  APPTAINER_OPTIONS:
     #widget: "hidden_field"
-    value: " -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
-  SINGULARITY_IMAGE_TAG:
+    value: " --net --network none   -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
+  APPTAINER_IMAGE_TAG:
     widget: select
-    label: "Cryosparc Version"
+    label: "CryoSPARC Version"
     options:
       - [ "4.4.1+240110-2", "4.4.1+240110-2" ]
   CRYOSPARC_LOCAL_WORKER:
@@ -76,7 +76,7 @@ attributes:
     label: "Number of CPU cores"
     value: 8
     help: |
-      Number of cpu cores available for cryosparc instance
+      Number of CPU cores available for CryoSPARC instance
     min: 8
     max: 44
     step: 4
@@ -84,7 +84,7 @@ attributes:
     widget: "number_field"
     value: "32768"
     help:
-      Total memory for cryosparc instance in MB.
+      Total memory for CryoSPARC instance in MB.
     min: 32768
     max: 500000
   num_gpus:
@@ -92,7 +92,7 @@ attributes:
     label: "Number of GPUs"
     value: 1
     help: |
-      Number of GPUs requested; the type of GPU provided will depend upon the Parition selected.
+      Number of GPUs requested; the type of GPU provided will depend upon the Partition selected.
     min: 1
     max: 10
     step: 1
@@ -112,4 +112,4 @@ attributes:
     required: true
     label: "Cryosparc License ID"
     help: |
-      Enter your personal cryosparc license ID. You can obtain a new license at https://cryosparc.com/download
+      Enter a valid CryoSPARC license ID. You can obtain a new license at https://cryosparc.com/download
