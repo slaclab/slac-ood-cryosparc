@@ -110,12 +110,12 @@ function advanced_settings_change_handler() {
   );
   $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0].value = datadir.defaultValue
 
-  let apptainer_options = $('#batch_connect_session_context_APPTAINER_OPTIONS')[0]
+  let singularity_options = $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0]
   toggle_visibilty_of_form_group(
-    '#batch_connect_session_context_APPTAINER_OPTIONS',
+    '#batch_connect_session_context_SINGULARITY_OPTIONS',
     toggle.checked == true ? true : false
   );
-  $('#batch_connect_session_context_APPTAINER_OPTIONS')[0].value = apptainer_options.defaultValue
+  $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0].value = singularity_options.defaultValue
 
   let bootstrap = $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0]
   toggle_visibilty_of_form_group(
