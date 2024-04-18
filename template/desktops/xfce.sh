@@ -9,7 +9,7 @@ PANEL_CONFIG="${HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 if [[ ! -e "${PANEL_CONFIG}" ]]; then
   mkdir -p "$(dirname "${PANEL_CONFIG}")"
   nl=$'\n'
-  cat >"${PANEL_CONFIG}" <EOF
+  cat << EOF > "${PANEL_CONFIG}"
 <?xml version="1.0" encoding="UTF-8"?>\n$nl
 <channel name="xfce4-panel" version="1.0">$nl
   <property name="configver" type="int" value="2"/>$nl
