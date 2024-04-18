@@ -8,110 +8,111 @@ fi
 PANEL_CONFIG="${HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 if [[ ! -e "${PANEL_CONFIG}" ]]; then
   mkdir -p "$(dirname "${PANEL_CONFIG}")"
-  echo -en >"${PANEL_CONFIG}" <EOF
-<?xml version="1.0" encoding="UTF-8"?>\n\n
-<channel name="xfce4-panel" version="1.0">\n
-  <property name="configver" type="int" value="2"/>\n
-  <property name="panels" type="array">\n
-    <value type="int" value="1"/>\n
-    <value type="int" value="2"/>\n
-    <property name="dark-mode" type="bool" value="true"/>\n
-    <property name="panel-1" type="empty">\n
-      <property name="position" type="string" value="p=6;x=0;y=0"/>\n
-      <property name="length" type="uint" value="100"/>\n
-      <property name="position-locked" type="bool" value="true"/>\n
-      <property name="icon-size" type="uint" value="16"/>\n
-      <property name="size" type="uint" value="26"/>\n
-      <property name="plugin-ids" type="array">\n
-        <value type="int" value="1"/>\n
-        <value type="int" value="2"/>\n
-        <value type="int" value="3"/>\n
-        <value type="int" value="4"/>\n
-        <value type="int" value="5"/>\n
-        <value type="int" value="6"/>\n
-        <value type="int" value="7"/>\n
-        <value type="int" value="8"/>\n
-        <value type="int" value="9"/>\n
-        <value type="int" value="10"/>\n
-        <value type="int" value="11"/>\n
-        <value type="int" value="12"/>\n
-        <value type="int" value="13"/>\n
-        <value type="int" value="14"/>\n
-      </property>\n
-    </property>\n
-    <property name="panel-2" type="empty">\n
-      <property name="autohide-behavior" type="uint" value="1"/>\n
-      <property name="position" type="string" value="p=10;x=0;y=0"/>\n
-      <property name="length" type="uint" value="1"/>\n
-      <property name="position-locked" type="bool" value="true"/>\n
-      <property name="size" type="uint" value="48"/>\n
-      <property name="plugin-ids" type="array">\n
-        <value type="int" value="15"/>\n
-        <value type="int" value="16"/>\n
-        <value type="int" value="17"/>\n
-        <value type="int" value="18"/>\n
-        <value type="int" value="19"/>\n
-        <value type="int" value="20"/>\n
-        <value type="int" value="21"/>\n
-        <value type="int" value="22"/>\n
-      </property>\n
-    </property>\n
-  </property>\n
-  <property name="plugins" type="empty">\n
-    <property name="plugin-1" type="string" value="applicationsmenu"/>\n
-    <property name="plugin-2" type="string" value="tasklist">\n
-      <property name="grouping" type="uint" value="1"/>\n
-    </property>\n
-    <property name="plugin-3" type="string" value="separator">\n
-      <property name="expand" type="bool" value="true"/>\n
-      <property name="style" type="uint" value="0"/>\n
-    </property>\n
-    <property name="plugin-4" type="string" value="pager"/>\n
-    <property name="plugin-5" type="string" value="separator">\n
-        <property name="style" type="uint" value="0"/>\n
-    </property>\n
-    <property name="plugin-6" type="string" value="systray">\n
-        <property name="square-icons" type="bool" value="true"/>\n
-    </property>\n
-    <property name="plugin-8" type="string" value="pulseaudio">\n
-      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>\n
-      <property name="show-notifications" type="bool" value="true"/>\n
-    </property>\n
-    <property name="plugin-9" type="string" value="power-manager-plugin"/>\n
-    <property name="plugin-10" type="string" value="notification-plugin"/>\n
-    <property name="plugin-11" type="string" value="separator">\n
-      <property name="style" type="uint" value="0"/>\n
-    </property>\n
-    <property name="plugin-12" type="string" value="clock"/>\n
-    <property name="plugin-13" type="string" value="separator">\n
-      <property name="style" type="uint" value="0"/>\n
-    </property>\n
-    <property name="plugin-14" type="string" value="actions"/>\n
-    <property name="plugin-15" type="string" value="showdesktop"/>\n
-    <property name="plugin-16" type="string" value="separator"/>\n
-    <property name="plugin-17" type="string" value="launcher">\n
-      <property name="items" type="array">\n
-        <value type="string" value="xfce4-terminal-emulator.desktop"/>\n
-      </property>\n
-    </property>\n
-    <property name="plugin-18" type="string" value="launcher">\n
-      <property name="items" type="array">\n
-        <value type="string" value="xfce4-file-manager.desktop"/>\n
-      </property>\n
-    </property>\n
-    <property name="plugin-19" type="string" value="launcher">\n
-      <property name="items" type="array">\n
-        <value type="string" value="xfce4-web-browser.desktop"/>\n
-      </property>\n
-    </property>\n
-    <property name="plugin-20" type="string" value="launcher">\n
-      <property name="items" type="array">\n
-        <value type="string" value="xfce4-appfinder.desktop"/>\n
-      </property>\n
-    </property>\n
-    <property name="plugin-21" type="string" value="separator"/>\n
-    <property name="plugin-22" type="string" value="directorymenu"/>\n
-  </property>\n
+  nl=$'\n'
+  cat >"${PANEL_CONFIG}" <EOF
+<?xml version="1.0" encoding="UTF-8"?>\n$nl
+<channel name="xfce4-panel" version="1.0">$nl
+  <property name="configver" type="int" value="2"/>$nl
+  <property name="panels" type="array">$nl
+    <value type="int" value="1"/>$nl
+    <value type="int" value="2"/>$nl
+    <property name="dark-mode" type="bool" value="true"/>$nl
+    <property name="panel-1" type="empty">$nl
+      <property name="position" type="string" value="p=6;x=0;y=0"/>$nl
+      <property name="length" type="uint" value="100"/>$nl
+      <property name="position-locked" type="bool" value="true"/>$nl
+      <property name="icon-size" type="uint" value="16"/>$nl
+      <property name="size" type="uint" value="26"/>$nl
+      <property name="plugin-ids" type="array">$nl
+        <value type="int" value="1"/>$nl
+        <value type="int" value="2"/>$nl
+        <value type="int" value="3"/>$nl
+        <value type="int" value="4"/>$nl
+        <value type="int" value="5"/>$nl
+        <value type="int" value="6"/>$nl
+        <value type="int" value="7"/>$nl
+        <value type="int" value="8"/>$nl
+        <value type="int" value="9"/>$nl
+        <value type="int" value="10"/>$nl
+        <value type="int" value="11"/>$nl
+        <value type="int" value="12"/>$nl
+        <value type="int" value="13"/>$nl
+        <value type="int" value="14"/>$nl
+      </property>$nl
+    </property>$nl
+    <property name="panel-2" type="empty">$nl
+      <property name="autohide-behavior" type="uint" value="1"/>$nl
+      <property name="position" type="string" value="p=10;x=0;y=0"/>$nl
+      <property name="length" type="uint" value="1"/>$nl
+      <property name="position-locked" type="bool" value="true"/>$nl
+      <property name="size" type="uint" value="48"/>$nl
+      <property name="plugin-ids" type="array">$nl
+        <value type="int" value="15"/>$nl
+        <value type="int" value="16"/>$nl
+        <value type="int" value="17"/>$nl
+        <value type="int" value="18"/>$nl
+        <value type="int" value="19"/>$nl
+        <value type="int" value="20"/>$nl
+        <value type="int" value="21"/>$nl
+        <value type="int" value="22"/>$nl
+      </property>$nl
+    </property>$nl
+  </property>$nl
+  <property name="plugins" type="empty">$nl
+    <property name="plugin-1" type="string" value="applicationsmenu"/>$nl
+    <property name="plugin-2" type="string" value="tasklist">$nl
+      <property name="grouping" type="uint" value="1"/>$nl
+    </property>$nl
+    <property name="plugin-3" type="string" value="separator">$nl
+      <property name="expand" type="bool" value="true"/>$nl
+      <property name="style" type="uint" value="0"/>$nl
+    </property>$nl
+    <property name="plugin-4" type="string" value="pager"/>$nl
+    <property name="plugin-5" type="string" value="separator">$nl
+        <property name="style" type="uint" value="0"/>$nl
+    </property>$nl
+    <property name="plugin-6" type="string" value="systray">$nl
+        <property name="square-icons" type="bool" value="true"/>$nl
+    </property>$nl
+    <property name="plugin-8" type="string" value="pulseaudio">$nl
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>$nl
+      <property name="show-notifications" type="bool" value="true"/>$nl
+    </property>$nl
+    <property name="plugin-9" type="string" value="power-manager-plugin"/>$nl
+    <property name="plugin-10" type="string" value="notification-plugin"/>$nl
+    <property name="plugin-11" type="string" value="separator">$nl
+      <property name="style" type="uint" value="0"/>$nl
+    </property>$nl
+    <property name="plugin-12" type="string" value="clock"/>$nl
+    <property name="plugin-13" type="string" value="separator">$nl
+      <property name="style" type="uint" value="0"/>$nl
+    </property>$nl
+    <property name="plugin-14" type="string" value="actions"/>$nl
+    <property name="plugin-15" type="string" value="showdesktop"/>$nl
+    <property name="plugin-16" type="string" value="separator"/>$nl
+    <property name="plugin-17" type="string" value="launcher">$nl
+      <property name="items" type="array">$nl
+        <value type="string" value="xfce4-terminal-emulator.desktop"/>$nl
+      </property>$nl
+    </property>$nl
+    <property name="plugin-18" type="string" value="launcher">$nl
+      <property name="items" type="array">$nl
+        <value type="string" value="xfce4-file-manager.desktop"/>$nl
+      </property>$nl
+    </property>$nl
+    <property name="plugin-19" type="string" value="launcher">$nl
+      <property name="items" type="array">$nl
+        <value type="string" value="xfce4-web-browser.desktop"/>$nl
+      </property>$nl
+    </property>$nl
+    <property name="plugin-20" type="string" value="launcher">$nl
+      <property name="items" type="array">$nl
+        <value type="string" value="xfce4-appfinder.desktop"/>$nl
+      </property>$nl
+    </property>$nl
+    <property name="plugin-21" type="string" value="separator"/>$nl
+    <property name="plugin-22" type="string" value="directorymenu"/>$nl
+  </property>$nl
 </channel>
 EOF
 fi
