@@ -110,6 +110,20 @@ function advanced_settings_change_handler() {
   );
   $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0].value = datadir.defaultValue
 
+  let ssdquota = $('#batch_connect_session_context_CRYOSPARC_CACHE_QUOTA')[0]
+  toggle_visibility_of_form_group(
+    '#batch_connect_session_context_CRYOSPARC_CACHE_QUOTA',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_CRYOSPARC_CACHE_QUOTA')[0].value = ssdquota.defaultValue
+
+  let ssdreserve = $('#batch_connect_session_context_CRYOSPARC_CACHE_FREE')[0]
+  toggle_visibility_of_form_group(
+    '#batch_connect_session_context_CRYOSPARC_CACHE_FREE',
+    toggle.checked == true ? true : false
+  );
+  $('#batch_connect_session_context_CRYOSPARC_CACHE_FREE')[0].value = ssdreserve.defaultValue
+
   let singularity_options = $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0]
   toggle_visibilty_of_form_group(
     '#batch_connect_session_context_SINGULARITY_OPTIONS',
