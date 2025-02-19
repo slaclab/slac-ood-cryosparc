@@ -21,7 +21,6 @@ form:
   - CRYOSPARC_MASTER_PATH
   - CRYOSPARC_WORKER_PATH
   - SINGULARITY_OPTIONS
-  - SINGULARITY_MOUNTS
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
@@ -68,9 +67,7 @@ attributes:
     value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     #widget: "hidden_field"
-    value: "-B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
-  SINGULARITY_MOUNTS:
-    value: "${SINGULARITY_MOUNTS} --no-mount tmp -B ${LSCRATCH}/tmp:tmp"
+    value: "--no-mount tmp -B ${LSCRATCH}/tmp:tmp -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
