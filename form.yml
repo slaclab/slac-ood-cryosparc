@@ -65,14 +65,17 @@ attributes:
   SINGULARITY_IMAGE:
     widget: "hidden_field"
     value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
+  LSCRATCH_TMP:
+    widget: "hidden_field"
+    value: "${LSCRATCH}/tmp"
   SINGULARITY_OPTIONS:
-    #widget: "hidden_field"
-    value: "--no-mount tmp -B $CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
+    value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
     options:
       - [ "4.5.3", "4.5.3-0" ]
+      - [ "4.6.2", "4.6.2-0" ]
   CRYOSPARC_LOCAL_WORKER:
     widget: "hidden_field"
     value: "1"
@@ -121,6 +124,6 @@ attributes:
     label: Show advanced settings...
   CRYOSPARC_LICENSE_ID:
     required: true
-    label: "Cryosparc License ID"
+    label: "CryoSPARC License ID"
     help: |
       Enter a valid CryoSPARC license ID. You can obtain a new license at https://cryosparc.com/download
