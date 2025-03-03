@@ -74,7 +74,7 @@ function toggle_cuda_version_visibility() {
     return;
   }
 
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_cuda_version',
     node_type_input.find(':selected').data('can-show-cuda')
   );
@@ -104,7 +104,7 @@ function advanced_settings_change_handler() {
   let toggle = $('#batch_connect_session_context_advanced_settings')[0];
 
   let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0]
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_CRYOSPARC_DATADIR',
     toggle.checked == true ? true : false
   );
@@ -125,28 +125,28 @@ function advanced_settings_change_handler() {
   $('#batch_connect_session_context_CRYOSPARC_CACHE_FREE')[0].value = ssdreserve.defaultValue
 
   let singularity_options = $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0]
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_SINGULARITY_OPTIONS',
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0].value = singularity_options.defaultValue
 
   let bootstrap = $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0]
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT',
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0].value = bootstrap.defaultValue
 
   let master = $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0]
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_CRYOSPARC_MASTER_PATH',
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0].value = master.defaultValue
 
   let worker = $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0]
-  toggle_visibilty_of_form_group(
+  toggle_visibility_of_form_group(
     '#batch_connect_session_context_CRYOSPARC_WORKER_PATH',
     toggle.checked == true ? true : false
   );
