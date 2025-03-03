@@ -47,29 +47,35 @@ attributes:
       EOF
       fi
   CRYOSPARC_DATADIR:
+    widget: "hidden_field"
     value: $HOME/cryosparc
-    help: Directory path for cryosparc database and configuration files should
+    help: |
+      Directory path for cryosparc database and configuration files
   CRYOSPARC_CACHE_QUOTA:
-    widget: "number_field"
+    widget: "hidden_field"
     value: 2500000
-    help: Adjusts the upper limit (in MB) of the cryosparc worker cache quota on high performance (SSD) storage
+    help: |
+      Adjusts the upper limit (in MB) of the cryosparc worker cache quota on high performance (SSD) storage
   CRYOSPARC_CACHE_FREE:
-    widget: "number_field"
+    widget: "hidden_field"
     value: 5000
-    help: Adjusts the minimum amount of free space (in MB) for the cryosparc worker cache to leave on high performance (SSD) storage
+    help: |
+      Adjusts the minimum amount of free space (in MB) for the cryosparc worker cache to leave on high performance (SSD) storage
     min: 5000
   CRYOSPARC_MASTER_PATH:
+    widget: "hidden_field"
     value: /app/cryosparc_master
   CRYOSPARC_WORKER_PATH:
+    widget: "hidden_field"
     value: /app/cryosparc_worker
   SINGULARITY_IMAGE:
     widget: "hidden_field"
     value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
-  LSCRATCH_TMP:
-    widget: "hidden_field"
-    value: "${LSCRATCH}/tmp"
   SINGULARITY_OPTIONS:
+    widget: "hidden_field"
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
+    help: |
+      Advanced CryoSPARC container options. Editing may cause issues with start-up or running of CryoSPARC
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
@@ -97,7 +103,7 @@ attributes:
   mem:
     widget: "number_field"
     value: "32768"
-    help:
+    help: |
       Total memory for CryoSPARC instance in MB.
     min: 16384 
     max: 500000
