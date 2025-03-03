@@ -49,7 +49,7 @@ function set_ppn_by_node_type(node_type_input, num_cores_input) {
  * @param      {string}    form_id  The form identifier
  * @param      {boolean}   show     Whether to show or hide
  */
-function toggle_visibilty_of_form_group(form_id, show) {
+function toggle_visibility_of_form_group(form_id, show) {
   let form_element = $(form_id);
   let parent = form_element.parent();
 
