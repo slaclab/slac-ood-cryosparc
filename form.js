@@ -109,6 +109,7 @@ function advanced_settings_change_handler() {
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_SINGULARITY_IMAGE')[0].value = singularity_image.defaultValue 
+  $('#batch_connect_session_context_SINGULARITY_IMAGE')[0].hide()
 
   let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0]
   toggle_visibility_of_form_group(
@@ -140,10 +141,11 @@ function advanced_settings_change_handler() {
 
   let bootstrap = $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0]
   toggle_visibility_of_form_group(
-    '#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT',
+   '#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT',
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0].value = bootstrap.defaultValue
+  $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0].hide()
 
   let master = $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0]
   toggle_visibility_of_form_group(
@@ -151,6 +153,7 @@ function advanced_settings_change_handler() {
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0].value = master.defaultValue
+  $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0].hide()
 
   let worker = $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0]
   toggle_visibility_of_form_group(
@@ -158,6 +161,7 @@ function advanced_settings_change_handler() {
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0].value = worker.defaultValue
+  $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0].hide()
 
   let desktop = $('#batch_connect_session_context_desktop')[0]
   toggle_visibility_of_form_group(
@@ -165,6 +169,7 @@ function advanced_settings_change_handler() {
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_desktop')[0].value = desktop.defaultValue
+  $('#batch_connect_session_context_desktop')[0].hide()
 }
 
 function set_advanced_settings_change_handler() {

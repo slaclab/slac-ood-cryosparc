@@ -68,13 +68,13 @@ attributes:
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
-      Advanced CryoSPARC container options. Editing may cause issues with start-up or running of CryoSPARC
+      Advanced CryoSPARC container options. *WARNING* Editing may cause issues with start-up or running of CryoSPARC
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
     options:
-      - [ "4.5.3", "4.5.3-0" ]
       - [ "4.6.2", "4.6.2-0" ]
+      - [ "4.7.0", "4.7.0-0" ]
   CRYOSPARC_LOCAL_WORKER:
     value: "1"
   desktop:
@@ -109,13 +109,13 @@ attributes:
     step: 1
   slurm_account:
     label: "Account"
-    help: "Slurm Account to use"
+    help: "Slurm account association (cryoem:<proposal_number>)"
   slurm_partition:
     label: "Partition"
-    help: "Slurm Partition to use"
+    help: "Slurm cluster partition (available: roma, turing, ampere, ada)"
   slurm_reservation:
     label: "Reservation"
-    helP: "Slurm Reservation to use (blank to ignore)"
+    helP: "Slurm reservation to use (leave blank to ignore)"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
