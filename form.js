@@ -103,13 +103,6 @@ function advanced_settings_change_handler() {
   console.log('advanced settings handler...');
   let toggle = $('#batch_connect_session_context_advanced_settings')[0];
 
-  let singularity_image = $('#batch_connect_session_context_SINGULARITY_IMAGE')[0]
-  toggle_visibility_of_form_group(
-    '#batch_connect_session_context_SINGULARITY_IMAGE',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_SINGULARITY_IMAGE')[0].value = singularity_image.defaultValue 
-
   let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0]
   toggle_visibility_of_form_group(
     '#batch_connect_session_context_CRYOSPARC_DATADIR',
@@ -137,34 +130,6 @@ function advanced_settings_change_handler() {
     toggle.checked == true ? true : false
   );
   $('#batch_connect_session_context_SINGULARITY_OPTIONS')[0].value = singularity_options.defaultValue
-
-  let bootstrap = $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0]
-  toggle_visibility_of_form_group(
-   '#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_OOD_BOOTSTRAP_SCRIPT')[0].value = bootstrap.defaultValue
-
-  let master = $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0]
-  toggle_visibility_of_form_group(
-    '#batch_connect_session_context_CRYOSPARC_MASTER_PATH',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_CRYOSPARC_MASTER_PATH')[0].value = master.defaultValue
-
-  let worker = $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0]
-  toggle_visibility_of_form_group(
-    '#batch_connect_session_context_CRYOSPARC_WORKER_PATH',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_CRYOSPARC_WORKER_PATH')[0].value = worker.defaultValue
-
-  let desktop = $('#batch_connect_session_context_desktop')[0]
-  toggle_visibility_of_form_group(
-    '#batch_connect_session_context_desktop',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_desktop')[0].value = desktop.defaultValue
 }
 
 function set_advanced_settings_change_handler() {
