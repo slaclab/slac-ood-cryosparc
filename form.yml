@@ -53,11 +53,11 @@ attributes:
     min: 5000
   CRYOSPARC_MASTER_PATH: "/app/cryosparc_master"
   CRYOSPARC_WORKER_PATH: "/app/cryosparc_worker"
-  SINGULARITY_IMAGE: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
+  SINGULARITY_IMAGE: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
-      Advanced CryoSPARC session options. *WARNING* Editing may cause issues with launching CryoSPARC session
+      Advanced CryoSPARC session options. *WARNING*&colon; Edit with caution, may cause issues launching CryoSPARC session.
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
