@@ -22,7 +22,9 @@ form:
   - bc_vnc_idle
   - bc_vnc_resolution
 attributes:
-  OOD_BOOTSTRAP_SCRIPT: |
+  OOD_BOOTSTRAP_SCRIPT: 
+    widget: hidden_field
+    value: |
       mkdir -p $CRYOSPARC_DATADIR/run
       if [ ! -d "$CRYOSPARC_DATADIR" ]; then
         mkdir -p $CRYOSPARC_DATADIR
@@ -55,7 +57,9 @@ attributes:
     min: 5000
   CRYOSPARC_MASTER_PATH: "/app/cryosparc_master"
   CRYOSPARC_WORKER_PATH: "/app/cryosparc_worker"
-  SINGULARITY_IMAGE: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
+  SINGULARITY_IMAGE: 
+    widget: hidden_field
+    value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
