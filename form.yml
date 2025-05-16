@@ -19,10 +19,7 @@ form:
   - bc_vnc_idle
   - bc_vnc_resolution
 attributes:
-  OOD_BOOTSTRAP_SCRIPT: 
-    widget: text_area
-    # export CRYOSPARC_DATADIR=$HOME/cryosparc
-    value: |
+  OOD_BOOTSTRAP_SCRIPT: |
       mkdir -p $CRYOSPARC_DATADIR/run
       if [ ! -d "$CRYOSPARC_DATADIR" ]; then
         mkdir -p $CRYOSPARC_DATADIR
@@ -53,12 +50,9 @@ attributes:
     help: |
       Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
-  CRYOSPARC_MASTER_PATH:
-    value: /app/cryosparc_master
-  CRYOSPARC_WORKER_PATH:
-    value: /app/cryosparc_worker
-  SINGULARITY_IMAGE:
-    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
+  CRYOSPARC_MASTER_PATH: /app/cryosparc_master
+  CRYOSPARC_WORKER_PATH: /app/cryosparc_worker
+  SINGULARITY_IMAGE: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
@@ -70,9 +64,9 @@ attributes:
       - [ "4.6.2", "4.6.2-0" ]
       - [ "4.7.0", "4.7.0-0" ]
   CRYOSPARC_LOCAL_WORKER:
+    label: "Number of CryoSPARC local workers"
     value: "1"
-  desktop:
-    value: xfce
+  desktop: xfce
   bc_vnc_idle: 0
   bc_vnc_resolution:
     required: true
@@ -103,7 +97,7 @@ attributes:
     step: 1
   slurm_account:
     label: "Account"
-    help: "Slurm account association (cryoem:<proposal_number>)"
+    help: "Slurm account association (cryoem:&lt;proposal_number&gt;)"
   slurm_partition:
     widget: select
     label: "Partition"
