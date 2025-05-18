@@ -55,8 +55,12 @@ attributes:
     help: |
       Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
-  CRYOSPARC_MASTER_PATH: "/app/cryosparc_master"
-  CRYOSPARC_WORKER_PATH: "/app/cryosparc_worker"
+  CRYOSPARC_MASTER_PATH: 
+    widget: hidden_field
+    value: "/app/cryosparc_master"
+  CRYOSPARC_WORKER_PATH:  
+    widget: hidden_field
+    value: "/app/cryosparc_worker"
   SINGULARITY_IMAGE: 
     widget: hidden_field
     value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
