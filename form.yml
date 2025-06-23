@@ -12,15 +12,21 @@ form:
   - num_gpus
   - bc_email_on_started
   - advanced_settings
+  - SINGULARITY_OPTIONS
   - CRYOSPARC_DATADIR
+  - CRYOSPARC_MASTER_PATH
+  - CRYOSPARC_WORKER_PATH
   - CRYOSPARC_CACHE_QUOTA
   - CRYOSPARC_CACHE_FREE
-  - SINGULARITY_OPTIONS
+  - OOD_BOOTSTRAP_SCRIPT
+  - SINGULARITY_IMAGE
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
 attributes:
-  OOD_BOOTSTRAP_SCRIPT: |
+  OOD_BOOTSTRAP_SCRIPT: 
+    widget: hidden_field
+    value: |
       mkdir -p $CRYOSPARC_DATADIR/run
       if [ ! -d "$CRYOSPARC_DATADIR" ]; then
         mkdir -p $CRYOSPARC_DATADIR
@@ -51,13 +57,19 @@ attributes:
     help: |
       Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
-  CRYOSPARC_MASTER_PATH: "/app/cryosparc_master"
-  CRYOSPARC_WORKER_PATH: "/app/cryosparc_worker"
-  SINGULARITY_IMAGE: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
-      Advanced CryoSPARC session options. *WARNING* Editing may cause issues with launching CryoSPARC session
+      Advanced CryoSPARC session options. *WARNING*&colon; Edit with caution, may cause issues launching CryoSPARC session.
+  CRYOSPARC_MASTER_PATH: 
+    widget: hidden_field
+    value: "/app/cryosparc_master"
+  CRYOSPARC_WORKER_PATH:  
+    widget: hidden_field
+    value: "/app/cryosparc_worker"
+  SINGULARITY_IMAGE: 
+    widget: hidden_field
+    value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
@@ -110,7 +122,7 @@ attributes:
       - [ "Ada (NVIDIA L40S)", "ada" ] 
   slurm_reservation:
     label: "Reservation"
-    helP: "Slurm reservation to use (leave blank to ignore)"
+    help: "Slurm reservation to use (leave blank to ignore)"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
