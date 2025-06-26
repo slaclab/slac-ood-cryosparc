@@ -103,13 +103,6 @@ function advanced_settings_change_handler() {
   console.log('advanced settings handler...');
   let toggle = $('#batch_connect_session_context_advanced_settings')[0];
 
-  let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0]
-  toggle_visibility_of_form_group(
-    '#batch_connect_session_context_CRYOSPARC_DATADIR',
-    toggle.checked == true ? true : false
-  );
-  $('#batch_connect_session_context_CRYOSPARC_DATADIR')[0].value = datadir.defaultValue
-
   let ssdquota = $('#batch_connect_session_context_CRYOSPARC_CACHE_QUOTA')[0]
   toggle_visibility_of_form_group(
     '#batch_connect_session_context_CRYOSPARC_CACHE_QUOTA',
