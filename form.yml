@@ -3,31 +3,29 @@ cluster: "s3df_batch"
 form:
   - CRYOSPARC_LICENSE_ID
   - SINGULARITY_IMAGE_TAG
+  - CRYOSPARC_DATADIR
   - CRYOSPARC_LOCAL_WORKER
   - slurm_account
   - slurm_partition
-  - slurm_reservation
   - bc_num_hours
   - bc_num_cores
   - mem
   - num_gpus
   - bc_email_on_started
   - advanced_settings
-  - SINGULARITY_IMAGE
-  - CRYOSPARC_DATADIR
+  - SINGULARITY_OPTIONS
+  - CRYOSPARC_MASTER_PATH
+  - CRYOSPARC_WORKER_PATH
   - CRYOSPARC_CACHE_QUOTA
   - CRYOSPARC_CACHE_FREE
   - OOD_BOOTSTRAP_SCRIPT
-  - CRYOSPARC_MASTER_PATH
-  - CRYOSPARC_WORKER_PATH
-  - SINGULARITY_OPTIONS
+  - SINGULARITY_IMAGE
   - desktop
   - bc_vnc_idle
   - bc_vnc_resolution
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
-    widget: text_area
-    # export CRYOSPARC_DATADIR=$HOME/cryosparc
+    widget: hidden_field
     value: |
       mkdir -p $CRYOSPARC_DATADIR/run
       if [ ! -d "$CRYOSPARC_DATADIR" ]; then
@@ -49,36 +47,39 @@ attributes:
   CRYOSPARC_DATADIR:
     value: $HOME/cryosparc
     help: |
-      Directory path for cryosparc database and configuration files
+      Directory path for CryoSPARC database and configuration files
   CRYOSPARC_CACHE_QUOTA:
     value: 2500000
     help: |
-      Adjusts the upper limit (in MB) of the cryosparc worker cache quota on high performance (SSD) storage
+      Adjusts the upper limit (in MB) of the CryoSPARC worker cache quota on high performance (SSD) storage
   CRYOSPARC_CACHE_FREE:
     value: 5000
     help: |
-      Adjusts the minimum amount of free space (in MB) for the cryosparc worker cache to leave on high performance (SSD) storage
+      Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
-  CRYOSPARC_MASTER_PATH:
-    value: /app/cryosparc_master
-  CRYOSPARC_WORKER_PATH:
-    value: /app/cryosparc_worker
-  SINGULARITY_IMAGE:
-    value: /sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif
   SINGULARITY_OPTIONS:
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
-      Advanced CryoSPARC container options. Editing may cause issues with start-up or running of CryoSPARC
+      Advanced CryoSPARC session options. *WARNING*&colon; Edit with caution, may cause issues launching CryoSPARC session.
+  CRYOSPARC_MASTER_PATH: 
+    widget: hidden_field
+    value: "/app/cryosparc_master"
+  CRYOSPARC_WORKER_PATH:  
+    widget: hidden_field
+    value: "/app/cryosparc_worker"
+  SINGULARITY_IMAGE: 
+    widget: hidden_field
+    value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
   SINGULARITY_IMAGE_TAG:
     widget: select
     label: "CryoSPARC Version"
     options:
-      - [ "4.5.3", "4.5.3-0" ]
       - [ "4.6.2", "4.6.2-0" ]
+      - [ "4.7.0", "4.7.0-0" ]
   CRYOSPARC_LOCAL_WORKER:
+    label: "Number of CryoSPARC local workers"
     value: "1"
-  desktop:
-    value: xfce
+  desktop: "xfce"
   bc_vnc_idle: 0
   bc_vnc_resolution:
     required: true
@@ -109,13 +110,19 @@ attributes:
     step: 1
   slurm_account:
     label: "Account"
-    help: "Slurm Account to use"
+    help: "Slurm account association (cryoem:&lt;proposal_number&gt;)"
   slurm_partition:
+    widget: select
     label: "Partition"
-    help: "Slurm Partition to use"
+    help: "Slurm cluster partition (available: roma, turing, ampere, ada)"
+    options:
+      - [ "Roma (CPU only)", "roma" ] 
+      - [ "Turing (NVIDIA 2080Ti)", "turing" ] 
+      - [ "Ampere (NVIDIA A100)", "ampere" ] 
+      - [ "Ada (NVIDIA L40S)", "ada" ] 
   slurm_reservation:
     label: "Reservation"
-    helP: "Slurm Reservation to use (blank to ignore)"
+    help: "Slurm reservation to use (leave blank to ignore)"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
