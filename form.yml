@@ -11,6 +11,7 @@ form:
   - bc_num_cores
   - mem
   - num_gpus
+  - slurm_constraints
   - bc_email_on_started
   - advanced_settings
   - SINGULARITY_OPTIONS
@@ -123,6 +124,9 @@ attributes:
   slurm_reservation:
     label: "Reservation"
     help: "Slurm reservation to use (leave blank to ignore)"
+  slurm_constraints:
+    label: "Constraints"
+    help: "Slurm constraints to use (leave blank to ignore)"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...
