@@ -11,7 +11,7 @@ form:
   - bc_num_cores
   - mem
   - num_gpus
-  - slurm_constraints
+  - slurm_constraint
   - bc_email_on_started
   - advanced_settings
   - SINGULARITY_OPTIONS
@@ -112,6 +112,7 @@ attributes:
   slurm_account:
     label: "Account"
     help: "Slurm account association (cryoem:&lt;proposal_number&gt;)"
+    pattern: "^[a-zA-Z0-9:_\\-]*$"
   slurm_partition:
     widget: select
     label: "Partition"
@@ -124,9 +125,10 @@ attributes:
   slurm_reservation:
     label: "Reservation"
     help: "Slurm reservation to use (leave blank to ignore)"
-  slurm_constraints:
+  slurm_constraint:
     label: "Constraints"
     help: "Slurm constraints to use (leave blank to ignore)"
+    pattern: "^.*$"
   advanced_settings:
     widget: "check_box"
     label: Show advanced settings...

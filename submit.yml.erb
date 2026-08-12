@@ -6,11 +6,11 @@ batch_connect:
   template: vnc
 script:
   native:
-    - "-A<%= slurm_account %>"
+    - "-A<%= slurm_account.gsub(/[^a-zA-Z0-9:_-]/, '') %>"
     - "-p<%= slurm_partition %>"
     - "-N 1"
     - "-c <%= bc_num_cores %>"
     - "--mem=<%= mem %>"
-    <% if not slurm_constraints.blank? %>- "--constraint=<%= slurm_constraints %>"<% end %>
+    <% if not slurm_constraint.blank? %>- "--constraint=<%= slurm_constraint.gsub(/[^a-zA-Z0-9_:=.\-&|()]/, '') %>"<% end %>
     <% if gpus > 0 %>- "--gpus=<%= gpus %>"<% end %>
-    <% if not slurm_reservation.blank? %>- "--reservation=<%= slurm_reservation %>"<% end %>
+    <% if not slurm_reservation.blank? %>- "--reservation=<%= slurm_reservation.gsub(/[^a-zA-Z0-9:]/, '') %>"<% end %>
