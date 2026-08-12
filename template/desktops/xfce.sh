@@ -117,11 +117,6 @@ if [[ ! -e "${PANEL_CONFIG}" ]]; then
 EOF
 fi
 
-# Don't use the systemd user bus for the X session
-if [ "$DBUS_SESSION_BUS_ADDRESS" = "unix:path=$XDG_RUNTIME_DIR/bus" ]; then
-    unset DBUS_SESSION_BUS_ADDRESS
-fi
-
 # Disable startup services
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
@@ -153,5 +148,7 @@ export XDG_DESKTOP_DIR="${LSCRATCH}/Desktop"
 export XDG_DATA_HOME="${LSCRATCH}/Desktop"
 
 echo "XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR}"
+echo "XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS}"
+echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"
 # Start up xfce desktop (block until user logs out of desktop)
-xfce4-session
+dbus-launch xfce4-session
