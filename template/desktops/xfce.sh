@@ -121,10 +121,10 @@ fi
 #if [ "$DBUS_SESSION_BUS_ADDRESS" = "unix:path=$XDG_RUNTIME_DIR/bus" ]; then
 #    unset DBUS_SESSION_BUS_ADDRESS
 #fi
-export XDG_RUNTIME_DIR="/run/user/$UID"
-export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-export $(dbus-launch)
-systemctl --user daemon-reload
+#export XDG_RUNTIME_DIR="/run/user/$UID"
+#export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+#export $(dbus-launch)
+#systemctl --user daemon-reload
 
 # Disable startup services
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
@@ -158,4 +158,4 @@ export XDG_DATA_HOME="${LSCRATCH}/Desktop"
 
 echo "XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR}"
 # Start up xfce desktop (block until user logs out of desktop)
-xfce4-session
+exec dbus-launch --exit-with-x11 /usr/bin/xfce4-session
