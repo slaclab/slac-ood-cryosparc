@@ -121,9 +121,8 @@ fi
 #if [ "$DBUS_SESSION_BUS_ADDRESS" = "unix:path=$XDG_RUNTIME_DIR/bus" ]; then
 #    unset DBUS_SESSION_BUS_ADDRESS
 #fi
-#export XDG_RUNTIME_DIR="/run/user/$UID"
-#export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 export $(dbus-launch)
 systemctl --user daemon-reload
 
