@@ -123,8 +123,8 @@ fi
 #fi
 export XDG_RUNTIME_DIR="/run/user/$UID"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-export $(dbus-launch)
-sudo systemctl daemon-reload
+#export $(dbus-launch)
+#systemctl --user daemon-reload
 
 # Disable startup services
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
