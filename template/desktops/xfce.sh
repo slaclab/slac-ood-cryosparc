@@ -158,4 +158,4 @@ export XDG_DATA_HOME="${LSCRATCH}/Desktop"
 
 echo "XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR}"
 # Start up xfce desktop (block until user logs out of desktop)
-exec /bin/dbus-launch --exit-with-x11 /usr/bin/xfce4-session
+dbus-launch --exit-with-x11 /usr/bin/xfce4-session
