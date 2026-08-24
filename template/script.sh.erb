@@ -5,7 +5,7 @@ cd "${HOME}"
 
 # Ensure that the user's configured login shell is used
 export SHELL="$(getent passwd $USER | cut -d: -f7)"
-unset SESSION_MANAGER
+#unset SESSION_MANAGER
 #unset DBUS_SESSION_BUS_ADDRESS
 
 # Start up desktop
