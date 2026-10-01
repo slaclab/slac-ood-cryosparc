@@ -4,6 +4,7 @@ form:
   - CRYOSPARC_LICENSE_ID
   - SINGULARITY_IMAGE_TAG
   - CRYOSPARC_DATADIR
+  - CRYOSPARC_MIGRATE_FROM
   - CRYOSPARC_LOCAL_WORKER
   - slurm_account
   - slurm_partition
@@ -28,14 +29,13 @@ attributes:
   OOD_BOOTSTRAP_SCRIPT: 
     widget: hidden_field
     value: |
-      mkdir -p $CRYOSPARC_DATADIR/run
-      if [ ! -d "$CRYOSPARC_DATADIR" ]; then
-        mkdir -p $CRYOSPARC_DATADIR
+      mkdir -p "$CRYOSPARC_DATADIR/run"
+      if [ ! -e "$CRYOSPARC_DATADIR/config.sh" ]; then
         cat <<EOF >$CRYOSPARC_DATADIR/config.sh
       export CRYOSPARC_LICENSE_ID=TBA
       export CRYOSPARC_MASTER_HOSTNAME=localhost
-      export CRYOSPARC_DB_PATH=$CRYOSPARC_DATADIR
-      export CRYOSPARC_BASE_PORT=39000
+      export CRYOSPARC_DB_PATH=$CRYOSPARC_DATADIR/cryosparc_database
+      export CRYOSPARC_BASE_PORT=61000
       export CRYOSPARC_DEVELOP=false
       export CRYOSPARC_INSECURE=false
       export CRYOSPARC_CLICK_WRAP=true
@@ -48,7 +48,19 @@ attributes:
   CRYOSPARC_DATADIR:
     value: $HOME/cryosparc
     help: |
-      Directory path for CryoSPARC database and configuration files
+      Directory path for CryoSPARC database and configuration files.
+      CryoSPARC v5 uses a separate directory from v4 so that your v4 database is
+      left untouched and you can go back to a v4 session at any time.
+  CRYOSPARC_MIGRATE_FROM:
+    label: "Migrate database from (CryoSPARC v5 only)"
+    value: $HOME/cryosparc
+    help: |
+      Path to your existing CryoSPARC v4 data directory. The first time you start
+      a v5 session, the database found here is <em>copied</em> into the v5 data
+      directory above and upgraded; the original is never modified. This can take
+      from a few minutes to over an hour depending on how many projects and jobs
+      you have, and it only happens once. Leave blank to start with an empty
+      CryoSPARC v5 instance instead.
   CRYOSPARC_CACHE_QUOTA:
     value: 2500000
     help: |
@@ -75,8 +87,9 @@ attributes:
     widget: select
     label: "CryoSPARC Version"
     options:
-      - [ "4.6.2", "4.6.2-0" ]
+      - [ "5.0.7", "5.0.7-0" ]
       - [ "4.7.0", "4.7.0-0" ]
+      - [ "4.6.2", "4.6.2-0" ]
   CRYOSPARC_LOCAL_WORKER:
     label: "Number of CryoSPARC local workers"
     value: "1"

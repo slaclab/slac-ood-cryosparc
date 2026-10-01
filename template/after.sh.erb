@@ -8,14 +8,28 @@ find_port () {
   local host="${1:-localhost}"
   local port_low="${2:-2000}"
   local step="${3:-100}"
+  local port_max="${4:-65400}"
   local port=${port_low}
   while port_used ${host} ${port}; do
     port=$(( $port + $step ))
+    if [ ${port} -gt ${port_max} ]; then
+      echo "ERROR: no free CryoSPARC port between ${port_low} and ${port_max}" >&2
+      return 1
+    fi
   done
   echo "${port}"
 }
-  
-export CRYOSPARC_BASE_PORT=$(find_port localhost 39100 100)
+
+# CryoSPARC v5 refuses any base port inside the Linux ephemeral range
+# (32768-60999) -- the installer and startup both check -- because the kernel
+# could hand the same port to something else. v5's own default moved to 61000
+# for this reason. v5 also uses base+0..+9, so the ceiling is 65400 to leave
+# room below 65535 (and below the base_port < 65525 model constraint).
+export CRYOSPARC_BASE_PORT=$(find_port localhost 61000 100 65400)
+if [ -z "${CRYOSPARC_BASE_PORT}" ]; then
+  echo "Could not allocate a CryoSPARC base port; aborting." >&2
+  exit 1
+fi
 echo 'CRYOSPARC BASE PORT ' $CRYOSPARC_BASE_PORT
 
 # start cryosparc
