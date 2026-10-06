@@ -160,11 +160,36 @@ function toggle_visibility_keep_value(form_id, show) {
   }
 }
 
+/**
+ * Show help text that only applies to CryoSPARC v5.
+ *
+ * The v5-specific copy is wrapped in <span class="cryosparc-v5-only"> in
+ * form.yml, so the wording stays with the rest of the help rather than being
+ * buried in this file. If Open OnDemand's help renderer strips the class
+ * attribute, fall back to hiding the whole help block for the data directory --
+ * coarser, but still better than the toggle silently doing nothing. The help
+ * element's own class differs by Bootstrap version, hence the selector list.
+ */
+function toggle_v5_only_help(show) {
+  let marked = $('.cryosparc-v5-only');
+  if (marked.length > 0) {
+    marked.toggle(show);
+    return;
+  }
+  $('#batch_connect_session_context_CRYOSPARC_DATADIR')
+    .parent()
+    .find('.help-block, .form-text, small.text-muted')
+    .first()
+    .toggle(show);
+}
+
 function image_tag_change_handler() {
+  let is_v5 = selected_version_is_v5();
   toggle_visibility_keep_value(
     '#batch_connect_session_context_CRYOSPARC_MIGRATE_FROM',
-    selected_version_is_v5()
+    is_v5
   );
+  toggle_v5_only_help(is_v5);
 }
 
 function set_image_tag_change_handler() {
