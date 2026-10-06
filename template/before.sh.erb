@@ -1,2 +1,96 @@
 # Export the module function if it exists
 [[ $(type -t module) == "function" ]] && export -f module
+
+###
+# Pre-flight validation of the CryoSPARC v5 data directory.
+#
+# cryosparc_db_migrate.sh inside the container is the authoritative copy of
+# these rules -- it also understands the migration state file and refuses far
+# more carefully. The cheap path-level checks are repeated here because that
+# script runs from after.sh, which only executes once the desktop session is
+# already up: a rejected configuration would still hand the user a remote
+# desktop with no CryoSPARC in it. before.sh is sourced by the batch_connect
+# job script, so exiting here ends the job before any desktop is started.
+#
+# Only applies to CryoSPARC v5 images. For a v4 session CRYOSPARC_DATADIR
+# legitimately points at an existing v4 database, which these rules reject.
+###
+case "${SINGULARITY_IMAGE_TAG}" in
+  5.*)
+    cryosparc_reject() {
+      echo "" >&2
+      echo "========================================================================" >&2
+      echo "CryoSPARC session not started" >&2
+      echo "========================================================================" >&2
+      echo "" >&2
+      printf '%s\n' "$@" >&2
+      echo "" >&2
+      echo "Nothing has been changed. Please correct the form and submit again." >&2
+      echo "========================================================================" >&2
+      exit 1
+    }
+
+    if [ -z "${CRYOSPARC_DATADIR}" ]; then
+      cryosparc_reject "'CryoSPARC Datadir' must be set to a directory path."
+    fi
+
+    case "${CRYOSPARC_DATADIR}" in
+      /*) ;;
+      *)  cryosparc_reject \
+            "'CryoSPARC Datadir' must be an absolute path (starting with /)." \
+            "You entered: ${CRYOSPARC_DATADIR}" ;;
+    esac
+
+    # Same directory for both would defeat the entire safety model: the v4
+    # database is copied and left untouched so a v4 session stays possible.
+    if [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
+       && [ "$(readlink -f "${CRYOSPARC_DATADIR}" 2>/dev/null || echo "${CRYOSPARC_DATADIR}")" \
+          = "$(readlink -f "${CRYOSPARC_MIGRATE_FROM}" 2>/dev/null || echo "${CRYOSPARC_MIGRATE_FROM}")" ]; then
+      cryosparc_reject \
+        "'CryoSPARC Datadir' and 'Migrate database from v4' are the same directory:" \
+        "  ${CRYOSPARC_DATADIR}" \
+        "" \
+        "They must differ. 'CryoSPARC Datadir' needs to be a NEW directory for the" \
+        "v5 instance; 'Migrate database from v4' is your existing v4 directory and" \
+        "is only ever read from."
+    fi
+
+    # A database here that our migration never created is almost always the
+    # user's existing v4 directory. Matches the in-container rule: data present
+    # and no migration marker at all (a marker in any state is fine -- 'done'
+    # means migrated, 'seeded' is recovered automatically, 'failed' is refused
+    # inside the container with a specific message).
+    if [ -d "${CRYOSPARC_DATADIR}/cryosparc_database" ] \
+       && [ -n "$(ls -A "${CRYOSPARC_DATADIR}/cryosparc_database" 2>/dev/null)" ] \
+       && [ ! -e "${CRYOSPARC_DATADIR}/.cryosparc_v5_migration" ]; then
+      cryosparc_reject \
+        "'CryoSPARC Datadir' already contains a CryoSPARC database that was not" \
+        "created by CryoSPARC v5:" \
+        "  ${CRYOSPARC_DATADIR}/cryosparc_database" \
+        "" \
+        "If that is your existing v4 directory, it does not go here:" \
+        "  * put a NEW, empty directory in 'CryoSPARC Datadir'" \
+        "  * put this path in 'Migrate database from v4'" \
+        "" \
+        "Your v4 database will then be copied there and upgraded, leaving the" \
+        "original untouched."
+    fi
+
+    # A typo here would otherwise start an empty instance, which looks exactly
+    # like a migration that silently lost every project.
+    if [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
+       && { [ ! -d "${CRYOSPARC_MIGRATE_FROM}/cryosparc_database" ] \
+            || [ -z "$(ls -A "${CRYOSPARC_MIGRATE_FROM}/cryosparc_database" 2>/dev/null)" ]; }; then
+      cryosparc_reject \
+        "'Migrate database from v4' does not contain a CryoSPARC database:" \
+        "  ${CRYOSPARC_MIGRATE_FROM}" \
+        "" \
+        "Expected a non-empty 'cryosparc_database' directory inside it. This should" \
+        "be the directory that holds cryosparc_database, not the database directory" \
+        "itself and not a project directory." \
+        "" \
+        "To start a brand new, empty CryoSPARC v5 instance, clear the" \
+        "'Migrate database from v4' field instead."
+    fi
+    ;;
+esac
