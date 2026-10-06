@@ -29,6 +29,10 @@ attributes:
   OOD_BOOTSTRAP_SCRIPT: 
     widget: hidden_field
     value: |
+      if [ -z "$CRYOSPARC_DATADIR" ]; then
+        echo "ERROR: 'CryoSPARC Datadir' must be set to a directory path." >&2
+        exit 1
+      fi
       mkdir -p "$CRYOSPARC_DATADIR/run"
       if [ ! -e "$CRYOSPARC_DATADIR/config.sh" ]; then
         cat <<EOF >$CRYOSPARC_DATADIR/config.sh
@@ -46,21 +50,32 @@ attributes:
       EOF
       fi
   CRYOSPARC_DATADIR:
-    value: $HOME/cryosparc
+    required: true
     help: |
-      Directory path for CryoSPARC database and configuration files.
-      CryoSPARC v5 uses a separate directory from v4 so that your v4 database is
-      left untouched and you can go back to a v4 session at any time.
+      Directory for this CryoSPARC instance's database and configuration files.
+      <br><br>
+      For CryoSPARC v5, enter a <strong>new, empty directory</strong>, for example
+      <code>/sdf/group/cryoem/g/C###/.../cryosparc-v5</code>. Do
+      <strong>not</strong> point this at your existing v4 directory&colon; your v4
+      database is copied here and upgraded, and the original is deliberately left
+      untouched so you can still start a v4 session. Reusing the same directory
+      for both would remove that safety net.
+      <br><br>
+      If this path already contains a database that CryoSPARC v5 did not create,
+      the session will refuse to start rather than risk damaging it.
   CRYOSPARC_MIGRATE_FROM:
-    label: "Migrate database from (CryoSPARC v5 only)"
+    label: "Migrate database from v4 (CryoSPARC v5 only)"
     value: $HOME/cryosparc
     help: |
-      Path to your existing CryoSPARC v4 data directory. The first time you start
-      a v5 session, the database found here is <em>copied</em> into the v5 data
-      directory above and upgraded; the original is never modified. This can take
-      from a few minutes to over an hour depending on how many projects and jobs
-      you have, and it only happens once. Leave blank to start with an empty
-      CryoSPARC v5 instance instead.
+      Path to your existing CryoSPARC v4 data directory &mdash; the one containing
+      <code>cryosparc_database</code>. The first time you start a v5 session the
+      database found here is <em>copied</em> into the directory above and
+      upgraded; the original is never modified. It runs once, and can take from a
+      few minutes to over an hour depending on how many projects and jobs you
+      have.
+      <br><br>
+      Clear this field to start a fresh CryoSPARC v5 instance
+      instead.
   CRYOSPARC_CACHE_QUOTA:
     value: 2500000
     help: |
@@ -87,7 +102,7 @@ attributes:
     widget: select
     label: "CryoSPARC Version"
     options:
-      - [ "5.0.7", "5.0.7-0" ]
+      - [ "5.0.7", "5.0.7-260921-0" ]
       - [ "4.7.0", "4.7.0-0" ]
       - [ "4.6.2", "4.6.2-0" ]
   CRYOSPARC_LOCAL_WORKER:

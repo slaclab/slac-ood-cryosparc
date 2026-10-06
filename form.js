@@ -133,41 +133,38 @@ function set_advanced_settings_change_handler() {
 
 
 /**
- * CryoSPARC v5 keeps its database in a directory of its own, so that the v4
- * database it was migrated from stays intact and a v4 session remains possible.
- * The "-v5" suffix is the marker, which makes this toggle idempotent and keeps
- * working for users who have moved their data directory into a project folder.
+ * Show "Migrate database from" only for CryoSPARC v5 images, since v4 ignores it.
+ *
+ * Nothing here rewrites a field's value. An earlier version derived the v5 data
+ * directory by appending "-v5" and overwrote the migrate-from path to match,
+ * which meant revisiting the form silently rewrote whatever the user had last
+ * entered. Both fields are now left exactly as typed: the data directory is the
+ * user's choice, and the migrate-from path stays a record of where the data came
+ * from.
  */
-const V5_SUFFIX = '-v5';
-
 function selected_version_is_v5() {
   let tag = $('#batch_connect_session_context_SINGULARITY_IMAGE_TAG').val();
   return typeof tag === 'string' && tag.startsWith('5.');
 }
 
-function image_tag_change_handler() {
-  let datadir = $('#batch_connect_session_context_CRYOSPARC_DATADIR');
-  let migrate_from = $('#batch_connect_session_context_CRYOSPARC_MIGRATE_FROM');
-  let path = datadir.val() || '';
-
-  if (selected_version_is_v5()) {
-    // Whatever the user has configured is the v4 database we migrate from; the
-    // v5 instance lives in a sibling directory next to it.
-    let v4_path = path.endsWith(V5_SUFFIX) ? path.slice(0, -V5_SUFFIX.length) : path;
-    datadir.val(v4_path + V5_SUFFIX);
-    toggle_visibility_of_form_group(
-      '#batch_connect_session_context_CRYOSPARC_MIGRATE_FROM', true
-    );
-    migrate_from.val(v4_path);
+/**
+ * Like toggle_visibility_of_form_group(), but does NOT clear the value when
+ * hiding -- hiding a field is not a reason to discard what it records.
+ */
+function toggle_visibility_keep_value(form_id, show) {
+  let parent = $(form_id).parent();
+  if (show) {
+    parent.show();
   } else {
-    if (path.endsWith(V5_SUFFIX)) {
-      datadir.val(path.slice(0, -V5_SUFFIX.length));
-    }
-    // Hiding blanks the field, which is what we want: v4 ignores it entirely.
-    toggle_visibility_of_form_group(
-      '#batch_connect_session_context_CRYOSPARC_MIGRATE_FROM', false
-    );
+    parent.hide();
   }
+}
+
+function image_tag_change_handler() {
+  toggle_visibility_keep_value(
+    '#batch_connect_session_context_CRYOSPARC_MIGRATE_FROM',
+    selected_version_is_v5()
+  );
 }
 
 function set_image_tag_change_handler() {
