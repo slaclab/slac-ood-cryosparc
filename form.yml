@@ -53,16 +53,6 @@ attributes:
     required: true
     help: |
       Directory for this CryoSPARC instance's database and configuration files.
-      <span class="cryosparc-v5-only"><br><br>
-      For CryoSPARC v5, enter a <strong>new, empty directory</strong>, for example
-      <code>/sdf/group/cryoem/g/C###/.../cryosparc-v5</code>. Do
-      <strong>not</strong> point this at your existing v4 directory&colon; your v4
-      database is copied here and upgraded, and the original is deliberately left
-      untouched so you can still start a v4 session. Reusing the same directory
-      for both would remove that safety net.
-      <br><br>
-      If this path already contains a database that CryoSPARC v5 did not create,
-      the session will refuse to start rather than risk damaging it.</span>
   CRYOSPARC_MIGRATE_FROM:
     label: "Migrate database from v4 (CryoSPARC v5 only)"
     value: $HOME/cryosparc

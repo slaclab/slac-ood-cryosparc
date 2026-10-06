@@ -135,10 +135,7 @@ function set_advanced_settings_change_handler() {
 /**
  * Show "Migrate database from" only for CryoSPARC v5 images, since v4 ignores it.
  *
- * Nothing here rewrites a field's value. An earlier version derived the v5 data
- * directory by appending "-v5" and overwrote the migrate-from path to match,
- * which meant revisiting the form silently rewrote whatever the user had last
- * entered. Both fields are now left exactly as typed: the data directory is the
+ * Nothing here rewrites a field's value. the data directory is the
  * user's choice, and the migrate-from path stays a record of where the data came
  * from.
  */
@@ -161,26 +158,35 @@ function toggle_visibility_keep_value(form_id, show) {
 }
 
 /**
- * Show help text that only applies to CryoSPARC v5.
+ * Help text that only applies to CryoSPARC v5.
  *
- * The v5-specific copy is wrapped in <span class="cryosparc-v5-only"> in
- * form.yml, so the wording stays with the rest of the help rather than being
- * buried in this file. If Open OnDemand's help renderer strips the class
- * attribute, fall back to hiding the whole help block for the data directory --
- * coarser, but still better than the toggle silently doing nothing. The help
- * element's own class differs by Bootstrap version, hence the selector list.
+ * This lives here rather than in form.yml's `help:` because it wouldn't hide the other way
  */
+const V5_HELP_ID = 'cryosparc-v5-datadir-help';
+
+const V5_HELP_HTML = [
+  '<div id="' + V5_HELP_ID + '" class="help-block form-text text-muted">',
+  'For CryoSPARC v5, enter a <strong>new, empty directory</strong>, for example ',
+  '<code>/sdf/group/cryoem/g/C###/.../cryosparc-v5</code>. ',
+  'Do <strong>not</strong> point this at your existing v4 directory: your v4 ',
+  'database is copied here and upgraded, and the original is deliberately left ',
+  'untouched so you can still start a v4 session. Reusing the same directory ',
+  'for both would remove that safety net.',
+  '<br><br>',
+  'If this path already contains a database that CryoSPARC v5 did not create, ',
+  'the session will refuse to start rather than risk damaging it.',
+  '</div>'
+].join('');
+
 function toggle_v5_only_help(show) {
-  let marked = $('.cryosparc-v5-only');
-  if (marked.length > 0) {
-    marked.toggle(show);
-    return;
+  let existing = $('#' + V5_HELP_ID);
+  if (show) {
+    if (existing.length === 0) {
+      $('#batch_connect_session_context_CRYOSPARC_DATADIR').after(V5_HELP_HTML);
+    }
+  } else {
+    existing.remove();
   }
-  $('#batch_connect_session_context_CRYOSPARC_DATADIR')
-    .parent()
-    .find('.help-block, .form-text, small.text-muted')
-    .first()
-    .toggle(show);
 }
 
 function image_tag_change_handler() {
@@ -193,9 +199,13 @@ function image_tag_change_handler() {
 }
 
 function set_image_tag_change_handler() {
-  let tag_input = $('#batch_connect_session_context_SINGULARITY_IMAGE_TAG');
-  image_tag_change_handler();
-  tag_input.change(image_tag_change_handler);
+  // Deferred to document-ready: if form.js happens to run before the select
+  // exists, both the initial call and the binding would silently do nothing.
+  $(function () {
+    let tag_input = $('#batch_connect_session_context_SINGULARITY_IMAGE_TAG');
+    image_tag_change_handler();
+    tag_input.on('change', image_tag_change_handler);
+  });
 }
 
 /**
