@@ -35,10 +35,10 @@ attributes:
       fi
       mkdir -p "$CRYOSPARC_DATADIR/run"
       if [ ! -e "$CRYOSPARC_DATADIR/config.sh" ]; then
-        cat <<EOF >$CRYOSPARC_DATADIR/config.sh
+        cat <<EOF >"$CRYOSPARC_DATADIR/config.sh"
       export CRYOSPARC_LICENSE_ID=TBA
       export CRYOSPARC_MASTER_HOSTNAME=localhost
-      export CRYOSPARC_DB_PATH=$CRYOSPARC_DATADIR/cryosparc_database
+      export CRYOSPARC_DB_PATH="$CRYOSPARC_DATADIR/cryosparc_database"
       export CRYOSPARC_BASE_PORT=61000
       export CRYOSPARC_DEVELOP=false
       export CRYOSPARC_INSECURE=false
