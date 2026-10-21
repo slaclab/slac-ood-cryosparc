@@ -41,13 +41,7 @@ case "${SINGULARITY_IMAGE_TAG}" in
             "You entered: ${CRYOSPARC_DATADIR}" ;;
     esac
 
-    # Whitespace in either path is rejected rather than worked around. Quoting
-    # the bootstrap's redirection is necessary but nowhere near sufficient: the
-    # SINGULARITY_OPTIONS bind list is a single word-split string of the form
-    # "-B a:b,c:d", and cryosparc.sh rewrites CRYOSPARC_DB_PATH into config.sh
-    # unquoted, so a space breaks the session later with an apptainer error that
-    # says nothing about the cause. Failing here, by name, is far kinder than
-    # supporting it halfway.
+    
     for _path in "${CRYOSPARC_DATADIR}" "${CRYOSPARC_MIGRATE_FROM}"; do
       [ -n "${_path}" ] || continue
       case "${_path}" in
@@ -62,11 +56,7 @@ case "${SINGULARITY_IMAGE_TAG}" in
 
     # Once a migration has completed, the migrate-from path is irrelevant:
     # cryosparc_db_migrate.sh sees the 'done' marker and returns before it ever
-    # looks at the source. Enforcing the source below would then block a working
-    # v5 session purely because the user deleted their old v4 directory to
-    # reclaim space -- which is exactly what we tell them to do once v5 is
-    # established. The form deliberately keeps the path as a record of where the
-    # data came from, so it stays populated long after it stops being needed.
+    # looks at the source.
     cryosparc_migration_done=0
     if [ "$(cat "${CRYOSPARC_DATADIR}/.cryosparc_v5_migration" 2>/dev/null)" = "done" ]; then
       cryosparc_migration_done=1
