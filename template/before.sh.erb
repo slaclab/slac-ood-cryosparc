@@ -41,9 +41,41 @@ case "${SINGULARITY_IMAGE_TAG}" in
             "You entered: ${CRYOSPARC_DATADIR}" ;;
     esac
 
+    # Whitespace in either path is rejected rather than worked around. Quoting
+    # the bootstrap's redirection is necessary but nowhere near sufficient: the
+    # SINGULARITY_OPTIONS bind list is a single word-split string of the form
+    # "-B a:b,c:d", and cryosparc.sh rewrites CRYOSPARC_DB_PATH into config.sh
+    # unquoted, so a space breaks the session later with an apptainer error that
+    # says nothing about the cause. Failing here, by name, is far kinder than
+    # supporting it halfway.
+    for _path in "${CRYOSPARC_DATADIR}" "${CRYOSPARC_MIGRATE_FROM}"; do
+      [ -n "${_path}" ] || continue
+      case "${_path}" in
+        *[[:space:]]*)
+          cryosparc_reject \
+            "Paths containing spaces or tabs are not supported:" \
+            "  ${_path}" \
+            "" \
+            "Please use a path without whitespace." ;;
+      esac
+    done
+
+    # Once a migration has completed, the migrate-from path is irrelevant:
+    # cryosparc_db_migrate.sh sees the 'done' marker and returns before it ever
+    # looks at the source. Enforcing the source below would then block a working
+    # v5 session purely because the user deleted their old v4 directory to
+    # reclaim space -- which is exactly what we tell them to do once v5 is
+    # established. The form deliberately keeps the path as a record of where the
+    # data came from, so it stays populated long after it stops being needed.
+    cryosparc_migration_done=0
+    if [ "$(cat "${CRYOSPARC_DATADIR}/.cryosparc_v5_migration" 2>/dev/null)" = "done" ]; then
+      cryosparc_migration_done=1
+    fi
+
     # Same directory for both would defeat the entire safety model: the v4
     # database is copied and left untouched so a v4 session stays possible.
-    if [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
+    if [ "${cryosparc_migration_done}" = "0" ] \
+       && [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
        && [ "$(readlink -f "${CRYOSPARC_DATADIR}" 2>/dev/null || echo "${CRYOSPARC_DATADIR}")" \
           = "$(readlink -f "${CRYOSPARC_MIGRATE_FROM}" 2>/dev/null || echo "${CRYOSPARC_MIGRATE_FROM}")" ]; then
       cryosparc_reject \
@@ -78,7 +110,8 @@ case "${SINGULARITY_IMAGE_TAG}" in
 
     # A typo here would otherwise start an empty instance, which looks exactly
     # like a migration that silently lost every project.
-    if [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
+    if [ "${cryosparc_migration_done}" = "0" ] \
+       && [ -n "${CRYOSPARC_MIGRATE_FROM}" ] \
        && { [ ! -d "${CRYOSPARC_MIGRATE_FROM}/cryosparc_database" ] \
             || [ -z "$(ls -A "${CRYOSPARC_MIGRATE_FROM}/cryosparc_database" 2>/dev/null)" ]; }; then
       cryosparc_reject \
