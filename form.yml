@@ -28,17 +28,20 @@ form:
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
     widget: hidden_field
+    # Because nothing here can be quoted, a data directory containing spaces
+    # cannot work; template/before.sh.erb rejects such paths up front with a
+    # readable message rather than letting them fail here.
     value: |
-      if [ -z "$CRYOSPARC_DATADIR" ]; then
-        echo "ERROR: 'CryoSPARC Datadir' must be set to a directory path." >&2
+      if [ x$CRYOSPARC_DATADIR = x ]; then
+        echo 'Error - CryoSPARC Datadir must be set to a directory path.' >&2
         exit 1
       fi
-      mkdir -p "$CRYOSPARC_DATADIR/run"
-      if [ ! -e "$CRYOSPARC_DATADIR/config.sh" ]; then
-        cat <<EOF >"$CRYOSPARC_DATADIR/config.sh"
+      mkdir -p $CRYOSPARC_DATADIR/run
+      if [ ! -e $CRYOSPARC_DATADIR/config.sh ]; then
+        cat <<EOF >$CRYOSPARC_DATADIR/config.sh
       export CRYOSPARC_LICENSE_ID=TBA
       export CRYOSPARC_MASTER_HOSTNAME=localhost
-      export CRYOSPARC_DB_PATH="$CRYOSPARC_DATADIR/cryosparc_database"
+      export CRYOSPARC_DB_PATH=$CRYOSPARC_DATADIR/cryosparc_database
       export CRYOSPARC_BASE_PORT=61000
       export CRYOSPARC_DEVELOP=false
       export CRYOSPARC_INSECURE=false
