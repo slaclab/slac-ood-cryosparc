@@ -91,39 +91,19 @@ attributes:
       Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
   SINGULARITY_OPTIONS:
-    # cacheable: false -- this value is derived from the app, not chosen by the
-    # user, so it must never be restored from
-    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
-    # Without it, anyone who launched the app before an update keeps getting the
-    # old value forever, which is how the broken bootstrap survived being fixed.
     cacheable: false
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
       Advanced CryoSPARC session options. *WARNING*&colon; Edit with caution, may cause issues launching CryoSPARC session.
   CRYOSPARC_MASTER_PATH: 
-    # cacheable: false -- this value is derived from the app, not chosen by the
-    # user, so it must never be restored from
-    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
-    # Without it, anyone who launched the app before an update keeps getting the
-    # old value forever, which is how the broken bootstrap survived being fixed.
     cacheable: false
     widget: hidden_field
     value: "/app/cryosparc_master"
   CRYOSPARC_WORKER_PATH:  
-    # cacheable: false -- this value is derived from the app, not chosen by the
-    # user, so it must never be restored from
-    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
-    # Without it, anyone who launched the app before an update keeps getting the
-    # old value forever, which is how the broken bootstrap survived being fixed.
     cacheable: false
     widget: hidden_field
     value: "/app/cryosparc_worker"
   SINGULARITY_IMAGE: 
-    # cacheable: false -- this value is derived from the app, not chosen by the
-    # user, so it must never be restored from
-    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
-    # Without it, anyone who launched the app before an update keeps getting the
-    # old value forever, which is how the broken bootstrap survived being fixed.
     cacheable: false
     widget: hidden_field
     value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
