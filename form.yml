@@ -27,6 +27,12 @@ form:
   - bc_vnc_resolution
 attributes:
   OOD_BOOTSTRAP_SCRIPT: 
+    # cacheable: false -- this value is derived from the app, not chosen by the
+    # user, so it must never be restored from
+    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
+    # Without it, anyone who launched the app before an update keeps getting the
+    # old value forever, which is how the broken bootstrap survived being fixed.
+    cacheable: false
     widget: hidden_field
     # Because nothing here can be quoted, a data directory containing spaces
     # cannot work; template/before.sh.erb rejects such paths up front with a
@@ -58,17 +64,23 @@ attributes:
       Directory for this CryoSPARC instance's database and configuration files.
   CRYOSPARC_MIGRATE_FROM:
     label: "Migrate database from v4 (CryoSPARC v5 only)"
-    value: $HOME/cryosparc
+    # Deliberately no default. It used to default to $HOME/cryosparc, which
+    # rejected every user who had never run CryoSPARC v4 -- the session refuses
+    # to start when this names a directory with no database in it, so a new user
+    # was blocked on their first v5 launch by a path they had never heard of.
+    # Empty means "start fresh", which is the right default for a new user; a
+    # migrating user knows their own path and fills it in deliberately.
     help: |
-      Path to your existing CryoSPARC v4 data directory &mdash; the one containing
-      <code>cryosparc_database</code>. The first time you start a v5 session the
-      database found here is <em>copied</em> into the directory above and
-      upgraded; the original is never modified. It runs once, and can take from a
-      few minutes to over an hour depending on how many projects and jobs you
-      have.
+      <strong>Leave this empty to start a fresh CryoSPARC v5 instance.</strong>
+      If you have never used CryoSPARC v4, or you want a clean instance, there is
+      nothing to fill in here.
       <br><br>
-      Clear this field to start a fresh CryoSPARC v5 instance
-      instead.
+      To bring an existing v4 instance forward, enter the path to its data
+      directory &mdash; the one containing <code>cryosparc_database</code>. The
+      first time you start a v5 session the database found here is
+      <em>copied</em> into the directory above and upgraded; the original is
+      never modified. It runs once, and can take from a few minutes to over an
+      hour depending on how many projects and jobs you have.
   CRYOSPARC_CACHE_QUOTA:
     value: 2500000
     help: |
@@ -79,16 +91,40 @@ attributes:
       Adjusts the minimum amount of free space (in MB) for the CryoSPARC worker cache to leave on high performance (SSD) storage
     min: 5000
   SINGULARITY_OPTIONS:
+    # cacheable: false -- this value is derived from the app, not chosen by the
+    # user, so it must never be restored from
+    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
+    # Without it, anyone who launched the app before an update keeps getting the
+    # old value forever, which is how the broken bootstrap survived being fixed.
+    cacheable: false
     value: "--no-mount tmp -B ${LSCRATCH}:/tmp,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_MASTER_PATH/config.sh,$CRYOSPARC_DATADIR/run:$CRYOSPARC_MASTER_PATH/run,$CRYOSPARC_DATADIR/config.sh:$CRYOSPARC_WORKER_PATH/config.sh"
     help: |
       Advanced CryoSPARC session options. *WARNING*&colon; Edit with caution, may cause issues launching CryoSPARC session.
   CRYOSPARC_MASTER_PATH: 
+    # cacheable: false -- this value is derived from the app, not chosen by the
+    # user, so it must never be restored from
+    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
+    # Without it, anyone who launched the app before an update keeps getting the
+    # old value forever, which is how the broken bootstrap survived being fixed.
+    cacheable: false
     widget: hidden_field
     value: "/app/cryosparc_master"
   CRYOSPARC_WORKER_PATH:  
+    # cacheable: false -- this value is derived from the app, not chosen by the
+    # user, so it must never be restored from
+    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
+    # Without it, anyone who launched the app before an update keeps getting the
+    # old value forever, which is how the broken bootstrap survived being fixed.
+    cacheable: false
     widget: hidden_field
     value: "/app/cryosparc_worker"
   SINGULARITY_IMAGE: 
+    # cacheable: false -- this value is derived from the app, not chosen by the
+    # user, so it must never be restored from
+    # ~/ondemand/data/sys/dashboard/batch_connect/cache/sys_slac-ood-cryosparc.json.
+    # Without it, anyone who launched the app before an update keeps getting the
+    # old value forever, which is how the broken bootstrap survived being fixed.
+    cacheable: false
     widget: hidden_field
     value: "/sdf/group/cryoem/sw/images/cryosparc/#SINGULARITY_IMAGE_TAG/cryosparc-desktop@#SINGULARITY_IMAGE_TAG.sif"
   SINGULARITY_IMAGE_TAG:
